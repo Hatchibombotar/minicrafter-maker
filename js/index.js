@@ -418,6 +418,7 @@ function presetSet(skin) {
         mouthEntry = 2
         trousersEntry = 2
         baseEntry = 1
+        accessoriesEntry = 1
     }
     if (skin == "alex") {
         // colors
@@ -438,6 +439,7 @@ function presetSet(skin) {
         mouthEntry = 2
         trousersEntry = 2
         baseEntry = 2
+        accessoriesEntry = 1
     }
     createImage()
 }
