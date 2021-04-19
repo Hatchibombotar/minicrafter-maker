@@ -17,7 +17,7 @@
     },
     {
         "id": "mouth",
-        "elements": ["none", "steve", "low", "small", "tounge", "smile", "buck", "suprised", "grin", "braces"]
+        "elements": ["none", "steve", "low", "small", "tounge", "smile", "buck", "suprised", "grin", "braces", "scary"]
     },
     {
         "id": "trousers",
