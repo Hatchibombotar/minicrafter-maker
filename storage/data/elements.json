@@ -1,0 +1,34 @@
+[
+    {
+        "id": "eyes",
+        "elements": ["none", "steve", "concerned", "flushed", "alien", "cyclops", "cross_eyes", "dumb", "wide", "big", "low"]
+    },
+    {
+        "id": "hair",
+        "elements": ["none", "steve", "alex", "cool", "bunch", "pixie_cut", "long_hair", "low", "scruff", "bowl", "fish", "left_long_hair"]
+    },
+    {
+        "id": "bg",
+        "elements": ["plain", "bamboo", "endstone", "terrain", "gold_border"]
+    },
+    {
+        "id": "shirt",
+        "elements": ["steve", "alex", "tartan", "referee", "bee", "creeper", "suit", "tee", "camo", "circle", "t-shirt"]
+    },
+    {
+        "id": "mouth",
+        "elements": ["none", "steve", "low", "small", "tounge", "smile", "buck", "suprised", "grin", "braces"]
+    },
+    {
+        "id": "trousers",
+        "elements": ["none", "steve"]
+    },
+    {
+        "id": "base",
+        "elements": ["steve", "alex", "diamond", "slime", "cmd"]
+    },
+    {
+        "id": "accessories",
+        "elements": ["none", "mask", "low_glasses", "bunny_ears"]
+    }
+]

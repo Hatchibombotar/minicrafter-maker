@@ -1,0 +1,230 @@
+@font-face {
+  font-family: 'minecraftfive';
+  src: url('../fonts/minecraft-five-825cb-webfont.woff2') format('woff2'), url('../fonts/minecraft-five-825cb-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: minecraftfive, Arial, Helvetica, sans-serif;
+}
+
+#caman-image {
+  width: 32px;
+  height: 32px;
+}
+
+#color_panel {
+  grid-area: color_panel;
+  background-color: rgb(218, 218, 218);
+  height: auto;
+  width: auto;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flexbox;
+  margin: 8px;
+}
+
+.item1 {
+  grid-area: settings;
+  background-color: rgb(163, 163, 163);
+  height: auto;
+  width: auto;
+  padding-left: 7px;
+  padding-right: 7px;
+  display: flexbox;
+  margin: 8px;
+}
+
+#output {
+  grid-area: display;
+  background-color: rgb(134, 134, 134);
+  height: auto;
+  width: auto;
+  display: flexbox;
+  margin: 8px;
+}
+
+.grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* .selector {
+  background-color: aquamarine;
+} */
+
+.left_button, .right_button, .text_button {
+  color: white;
+  height: 40px;
+  width: 40px;
+  box-shadow: 0 -4px rgb(21 108 0 / 50%) inset, 0 4px rgb(100 253 31 / 99%) inset, -4px 0 rgb(100 253 31 / 50%) inset, 4px 0 rgb(21 108 0 / 50%) inset;
+  background: #34aa2f;
+}
+
+.left_button, .right_button, .preset_buttons {
+  cursor: pointer;
+}
+
+.selector {
+  padding: 5px;
+  padding-top: 0px;
+  margin: 5px;
+  width: auto;
+  text-align: center;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.text_button {
+  width: 100px;
+}
+
+#color_panel {
+  text-align: center;
+}
+
+#color_panel h2, .item1 h2, #output h2 {
+  margin-top: 1px;
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+body h1 {
+  text-align: center;
+  padding-bottom: 0;
+  margin-bottom: 5px;
+}
+
+#color_panel h2, .item1 h2, #output h2 {
+  margin-top: 1px;
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+#color_panel h5 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+#color_panel label {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  font-size: 0.83em;
+  display: block;
+  font-weight: bold;
+}
+
+.smaller {
+  font-size: 10px;
+}
+
+.user_avatar {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  padding: 1px
+}
+
+.buttons img {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  padding: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+  cursor: pointer;
+}
+
+.buttons {
+  margin: 0 auto;
+  justify-content: center;
+  display: flex
+}
+
+.preset_container {
+  padding-left: 10px;
+  padding-bottom: 10px;
+  padding-top: 0px;
+  margin-top: 0px;
+}
+
+.preset_container h4 {
+  margin-top: 0px;
+  margin-bottom: 8px;
+}
+
+.preset_container img {
+  cursor: pointer;
+}
+
+.presetimage {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  padding: 1px;
+}
+
+#progress {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.preset_container {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+}
+
+.reset_padding_margin {
+  margin-top: 0px;
+  margin-bottom: 8px;
+  padding-left: 5px;
+}
+
+.preset_buttons {
+  box-shadow: 0 -4px rgb(108 108 108 / 50%) inset, 0 4px rgb(253 253 253 / 99%) inset, -4px 0 rgb(100 100 100 / 50%) inset, 4px 0 rgb(21 21 21 / 50%) inset;
+  background: #acacac;
+  height: 30px;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  font-size: 10px;
+  font-weight: bolder;
+}
+
+.invisible {
+  display: none;
+}
+
+.descriptionShareText {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.centeredImage, .sharedPreset {
+text-align: center;
+}
+
+/* Extras */
+body {
+  background-color: #d29196;
+background-image: linear-gradient(#005592, #d29196);
+}
+
+.grid-container > div {
+  background-image: linear-gradient(#94979f, #c4b9b7);
+  border: 2px solid #64606e;
+  box-shadow: inset 0 -4px 50px 0px #968f8f, inset 0 -6px 0 0px #868086;
+}
