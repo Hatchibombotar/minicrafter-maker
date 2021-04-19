@@ -9,7 +9,7 @@
     },
     {
         "id": "bg",
-        "elements": ["plain", "bamboo", "endstone", "terrain", "gold_border"]
+        "elements": ["plain", "bamboo", "endstone", "terrain", "gold_border", "black_glazed_terracotta"]
     },
     {
         "id": "shirt",
