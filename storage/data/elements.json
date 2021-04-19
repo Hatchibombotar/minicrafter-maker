@@ -29,6 +29,6 @@
     },
     {
         "id": "accessories",
-        "elements": ["none", "mask", "low_glasses", "bunny_ears"]
+        "elements": ["none", "mask", "low_glasses", "bunny_ears", "fox_ears"]
     }
 ]
