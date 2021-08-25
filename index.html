@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="icon" href="./images/icon.png" type="image/x-icon">
-  <title>MinicrafterMaker</title>
+  <title>Minicrafter Maker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta content="MinicrafterMaker" property="og:title">
   <meta content="2D Character Creator" property="og:description">
@@ -13,78 +13,44 @@
   <meta property="og:url" content="https://hatchibombotar.com/minicrafter-maker" />
 
   <link rel="stylesheet" href="./css/main.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/3.3.0/caman.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.5/jscolor.js"></script>
-  <script src=./js/index.js></script>
+
   <script src=./js/contibutors.js></script>
-  <script src=./js/translator.js></script>
 </head>
 
 <body>
-
-  <h1>Minicrafter Maker</h1>
+  <div class="title"><a>Minicrafter Maker</a></div>
+    <!-- <img src="./images/icon.png"></div> -->
   <div class="buttons"><a href="https://github.com/Hatchibombotar/minicrafter-maker"><img alt="Github Project Page"
-        src="./images/github.png"></a> <img onclick="changeLanguage()" alt="Change Language" src="./images/globe.png"> </div>
-  <div class="grid-container">
-    <div id="color_panel">
-      <h2 translate-key="colour_panel.title">Colours</h2>
-      <label for="colorIris" translate-key="colour_panel.iris">Iris</label>
-      <input data-jscolor="{format: 'rgb', value:'rgb(70, 54, 125)'}" id="colorIris" onChange="createImage()">
-      <label for="colorSclera" translate-key="colour_panel.sclera">Sclera</label>
-      <input data-jscolor="{format: 'rgb', value:'rgb(226, 233, 244)'}" id="colorSclera" onChange="createImage()">
-      <label for="colorHair" translate-key="colour_panel.hair">Hair</label>
-      <input data-jscolor="{format: 'rgb', value:'rgb(37,25,11)'}" id="colorHair" onChange="createImage()">
-      <label for="colorMouth" translate-key="colour_panel.mouth">Mouth</label>
-      <input data-jscolor="{format: 'rgb', value:'rgb(99,59,49)'}" id="colorMouth" onChange="createImage()">
-      <label for="colorShirt" translate-key="colour_panel.shirt">Shirt</label>
-      <input data-jscolor="{format: 'rgb', value: 'rgb(0,154,162)'}" id="colorShirt" onChange="createImage()">
-      <label for="colorTrousers" translate-key="colour_panel.trousers">Trousers</label>
-      <input data-jscolor="{format: 'rgb', value:'rgb(59,50,155)'}" id="colorTrousers" onChange="createImage()">
-      <label for="colorBackground" translate-key="colour_panel.background">Background</label>
-      <input data-jscolor="{format: 'rgb', value: 'rgb(192,203,220)'}" id="colorBackground" onChange="createImage()">
-      <label for="colorBase" translate-key="colour_panel.skin">Skin</label>
-      <input data-jscolor="{format: 'rgb', value: 'rgb(181,137,117)'}" id="colorBase" onChange="createImage()">
-      <label for="colorShoes" translate-key="colour_panel.shoe">Shoes</label>
-      <input data-jscolor="{format: 'rgb', value: 'rgb(123,123,123)'}" id="colorShoes" onChange="createImage()">
-    </div>
+        src="./images/github.png"></a>
+  </div>
+  <div class="grid-containerA">
     <div class="item1">
       <h2>Settings</h2>
-      <div class="selector" id="eyes"><button class="left_button" onclick="changeEyes('left')">
-          < </button><button class="text_button" translate-key="options.eyes"> Eyes </button><button
-              class="right_button" onclick="changeEyes('right')">></button></div>
-      <div class="selector" id="hair"><button class="left_button" onclick="changeHair('left')">
-          < </button><button class="text_button" translate-key="options.hair"> Hair </button><button
-              class="right_button" onclick="changeHair('right')">></button></div>
-      <div class="selector" id="mouth"><button class="left_button" onclick="changeMouth('left')">
-          < </button><button class="text_button" translate-key="options.mouth"> Mouth </button><button
-              class="right_button" onclick="changeMouth('right')">></button></div>
-      <div class="selector" id="shirt"><button class="left_button" onclick="changeShirt('left')">
-          < </button><button class="text_button" translate-key="options.shirt"> Shirt </button><button
-              class="right_button" onclick="changeShirt('right')">></button></div>
-      <div class="selector" id="trousers"><button class="left_button" onclick="changeTrousers('left')">
-          < </button><button class="text_button" translate-key="options.trousers"> Trousers </button><button
-              class="right_button" onclick="changeTrousers('right')">></button></div>
-      <div class="selector" id="background"><button class="left_button" onclick="changeBg('left')">
-          < </button><button class="text_button" translate-key="options.background"> Background </button><button
-              class="right_button" onclick="changeBg('right')">></button></div>
-      <div class="selector" id="accessories"><button class="left_button" onclick="changeAccessories('left')"> < </button><button class="text_button" translate-key="options.accessories"> Accessories </button><button class="right_button" onclick="changeAccessories('right')">></button></div>
-      <div class="selector" id="base"><button class="left_button" onclick="changeBase('left')">
-          < </button><button class="text_button" translate-key="options.base"> Base </button><button
-              class="right_button" onclick="changeBase('right')">></button></div>
+      <div class="bits-and-bobs">
+        <div class="category" id="category"></div>
+        <div class="parts" id="parts">
+          <p id="hint-text">Press an icon to change how the character looks!</p>
+        </div>
+        <div class="colours" id="colours">
+          <!-- <button class="colour" data-jscolor="" aria-label="Custom Colour"></button> -->
+        </div>
+      </div>
     </div>
     <div id="output">
       <h2>Preview</h2>
-      <img id="caman-image" alt="Empty Minicrafter Image" caman-height="32" caman-width="32" src="./storage/assets/elements/backgrounds/plain.png">
-        <h4 class="reset_padding_margin">Presets</h4>
-        <div class="preset_container" id="preset_container">
-        <img alt="Steve Preset Image" class="presetimage" src="./storage/assets/presets/steve.png" onclick="presetSet('steve')">
-        <img alt="Steve Preset Image" class="presetimage" src="./storage/assets/presets/alex.png" onclick="presetSet('alex')">
-      </div>
-      <button class="preset_buttons" onclick="togglePresetExtras()">EDIT</button><button class="preset_buttons" onclick="createPreset()">NEW</button><button class="preset_buttons" onclick="shareLink()">SHARE</button><button class="preset_buttons hideable invisible" onclick="resetPresets()">RESET</button><button class="preset_buttons hideable invisible" onclick="deleteLastPreset()">DELETE LAST</button>
+      <canvas id="canvas" alt="Empty Minicrafter Image" height="32" width="32"></canvas>
+      <h4 class="reset_padding_margin">Presets</h4>
+      <div class="preset_container" id="preset_container"></div>
+
+      <button class="preset_buttons" onclick="togglePresetExtras()">EDIT</button><button class="preset_buttons"
+        onclick="createPreset()">NEW</button><button class="preset_buttons" onclick="shareLink()">SHARE</button><button
+        class="preset_buttons hideable invisible" onclick="resetPresets()">RESET</button><button
+        class="preset_buttons hideable invisible" onclick="deleteLastPreset()">DELETE LAST</button>
     </div>
   </div>
   <h6 id="progress"></h6>
-  <div class="centered footnote">
+  <div class="footnote">
     <a class="smaller">Original minicrafter design by <a class="smaller"
         href="https://www.planetminecraft.com/member/chesto_">Chesto#5842</a></a><br>
     <a class="smaller">Minicrafter Maker created by <a class="smaller"
@@ -93,6 +59,7 @@
     <div id="contributor_section"></div>
     <a class="smaller">This website is not affiliated with Mojang Studios</a><br>
   </div>
+  <script src=./js/index.js></script>
 </body>
 
 </html>

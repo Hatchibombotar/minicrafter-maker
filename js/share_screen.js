@@ -1,263 +1,108 @@
-var eyes = []
-var hair = []
-var bg = []
-var shirt = []
-var mouth = []
-var trousers = []
-var base = []
-var accessories = []
-var elementsJSON = []
+var elementsJSON;
 
-var eyesEntry = 2
-var hairEntry = 2
-var bgEntry = 1
-var shirtEntry = 1
-var mouthEntry = 2
-var trousersEntry = 2
-var baseEntry = 1
-var accessoriesEntry = 3
+var canvas = document.getElementById("canvas")
+var ctx = canvas.getContext('2d');
+var sharedPreset = JSON.parse(decodeURIComponent(getUrlVars().preset))
+var presets = JSON.parse(localStorage.getItem("userPresets"))
 
-var processStarted = 0
-
+itterations_length = 0
 
 const elementsxobj = new XMLHttpRequest()
 elementsxobj.overrideMimeType("application/json")
 elementsxobj.open("GET", "./storage/data/elements.json", true)
 elementsxobj.onload = function () {
     elementsJSON = JSON.parse(elementsxobj.responseText);
-    for (i of elementsJSON) {
-        if (i.id == "eyes") { eyes = i.elements }
-        else if (i.id == "hair") { hair = i.elements }
-        else if (i.id == "bg") { bg = i.elements }
-        else if (i.id == "shirt") { shirt = i.elements }
-        else if (i.id == "mouth") { mouth = i.elements }
-        else if (i.id == "trousers") { trousers = i.elements }
-        else if (i.id == "base") { base = i.elements }
-        else if (i.id == "accessories") { accessories = i.elements }
+    itterations_length = elementsJSON.length
+    for (key of Object.keys(sharedPreset)) {
+        var element = sharedPreset[key]
+        var index = elementsJSON.findIndex(x => x.id == key)
+        elementsJSON[index].currentlySelected = element[0]
+        elementsJSON[index].colour = element[1]
     }
     createImage()
-    processStarted = 0
 }
 elementsxobj.send()
 
+itterations = 0
 function createImage() {
-    var overlayBg = new Image();
-    overlayBg.src = `./storage/assets/elements/backgrounds/${bg[bgEntry - 1]}.png`;
+    if (itterations >= itterations_length) {
+        itterations = 0
+        return
+    }
+    if (itterations == 0) {
+        itterations = 0
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    var overlayBgPlain = new Image();
-    overlayBgPlain.src = `./storage/assets/elements/backgroundsPlain/${bg[bgEntry - 1]}.png`;
-
-    var overlayEyes = new Image();
-    overlayEyes.src = `./storage/assets/elements/eyes/${eyes[eyesEntry - 1]}.png`;
-
-    var overlayIris = new Image();
-    overlayIris.src = `./storage/assets/elements/eyes_iris/${eyes[eyesEntry - 1]}.png`;
-
-    var overlaySclera = new Image();
-    overlaySclera.src = `./storage/assets/elements/eyes_sclera/${eyes[eyesEntry - 1]}.png`;
-
-    var overlayHair = new Image();
-    overlayHair.src = `./storage/assets/elements/hair/${hair[hairEntry - 1]}.png`;
-
-    var overlayBase = new Image();
-    overlayBase.src = `./storage/assets/elements/base/${base[baseEntry - 1]}.png`;
-
-    var overlayBaseOutline = new Image();
-    overlayBaseOutline.src = `./storage/assets/elements/base_plain/${base[baseEntry - 1]}.png`;
-
-    var overlayShirtPlain = new Image();
-    overlayShirtPlain.src = `./storage/assets/elements/shirts_plain/${shirt[shirtEntry - 1]}.png`;
-
-    var overlayShirt = new Image();
-    overlayShirt.src = `./storage/assets/elements/shirts/${shirt[shirtEntry - 1]}.png`;
-
-    var overlayMouth = new Image();
-    overlayMouth.src = `./storage/assets/elements/mouths/${mouth[mouthEntry - 1]}.png`;
-
-    var overlayMouthPlain = new Image();
-    overlayMouthPlain.src = `./storage/assets/elements/mouths_plain/${mouth[mouthEntry - 1]}.png`;
-
-    var overlayTrousers = new Image();
-    overlayTrousers.src = `./storage/assets/elements/trousers/${trousers[trousersEntry - 1]}.png`;
-
-    var overlayShoe = new Image();
-    overlayShoe.src = `./storage/assets/elements/shoes/default.png`;
-
-    var overlayAccessories = new Image();
-    overlayAccessories.src = `./storage/assets/elements/accessories/${accessories[accessoriesEntry - 1]}.png`;
-
-    Caman("#caman-image", function () {
-        this.newLayer(function () {
-            this.overlayImage(overlayBg);
-            this.filter.colorize_bg(255, 0, 255, 100);
-
-        });
-        this.newLayer(function () {
-            this.overlayImage(overlayBgPlain);
-        });
-        this.newLayer(function () {
-            this.overlayImage(overlayBase);
-            this.filter.colorize_base(255, 0, 255, 85)
-        });
-        this.newLayer(function () {
-            this.overlayImage(overlayBaseOutline);
-        });
-        this.newLayer(function () {
-            this.overlayImage(overlayIris);
-            this.filter.colorize_iris(255, 0, 255, 85)
-        });
-        this.newLayer(function () {
-            this.overlayImage(overlaySclera);
-            this.filter.colorize_sclera(255, 0, 255, 85)
-        });
-        this.newLayer(function () {
-            this.overlayImage(overlayEyes);
-        });
-        this.newLayer(function () {
-            this.overlayImage(overlayHair);
-            this.filter.colorize_hair(255, 0, 255, 100);
-        });
-        this.newLayer(function () {
-            this.overlayImage(overlayShirt);
-            this.filter.colorize_shirt(255, 0, 255, 85)
-        });
-        this.newLayer(function () {
-            this.overlayImage(overlayShirtPlain);
-        });
-        this.newLayer(function () {
-            this.overlayImage(overlayMouth);
-            this.filter.colorize_mouth(255, 0, 255, 85)
-        });
-        this.newLayer(function () {
-            this.overlayImage(overlayMouthPlain);
-        });
-        this.newLayer(function () {
-            this.overlayImage(overlayTrousers);
-            this.filter.colorize_trousers(255, 0, 255, 85)
-        });
-        this.newLayer(function () {
-            this.overlayImage(overlayShoe);
-            this.filter.colorize_shoes(255, 0, 255, 85)
-        });
-        this.newLayer(function () {
-            this.overlayImage(overlayAccessories);
-        });
-        this.render();
-
-    });
+    }
+    element = elementsJSON[itterations]
+    for (key of Object.keys(element.parts)) {
+        const part = element.parts[key]
+        if (part.elements.indexOf(element.currentlySelected) != -1) {
+            var path = `./storage/assets/elements/${element.id}/${key}/${element.currentlySelected}.png`
+            var image = new Image()
+            image.src = path
+            if (part.colour) {
+                overlayAndColourfy(image, element.colour)
+            } else {
+                overlay(image)
+            }
+        }
+    }
+    setTimeout(
+        function () {
+            itterations += 1
+            createImage();
+        }, 10
+    )
 
 }
 
-Caman.Filter.register("colorize_hair", function () {
-    var color_array = sharedPreset.colours.colorHair.replace("rgb(", "").replace(")", "").split(",")
-    this.process("colorize_hair", function (rgba) {
-        if (rgba.a > 0) {
-            rgba.r = rgba.r - (255 - color_array[0])
-            rgba.g = rgba.g - (255 - color_array[1])
-            rgba.b = rgba.b - (255 - color_array[2])
+function overlayAndColourfy(image, colourId) {
+    var newCanvasLayer = document.createElement('canvas');
+    newCanvasLayer.width = 32;
+    newCanvasLayer.height = 32;
+
+    var newCanvasLayerCtx = newCanvasLayer.getContext("2d");
+
+    image.onload = function () {
+        newCanvasLayerCtx.drawImage(image, 0, 0);
+        const imageData = newCanvasLayerCtx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        for (var i = 0; i < data.length; i += 4) {
+            if (data[i + 3] != 0) {
+                data[i] = data[i] - (255 - colourId[0]);     // red
+                data[i + 1] = data[i + 1] - (255 - colourId[1]); // green
+                data[i + 2] = data[i + 2] - (255 - colourId[2]); // blue
+            }
         }
-        return rgba;
-    });
-});
+        newCanvasLayerCtx.putImageData(imageData, 0, 0);
 
-Caman.Filter.register("colorize_bg", function () {
-    var color_array = sharedPreset.colours.colorBackground.replace("rgb(", "").replace(")", "").split(",")
-    this.process("colorize_bg", function (rgba) {
-        if (rgba.a > 0) {
-            rgba.r = rgba.r - (255 - color_array[0])
-            rgba.g = rgba.g - (255 - color_array[1])
-            rgba.b = rgba.b - (255 - color_array[2])
+        overlayCanvas(ctx, newCanvasLayerCtx)
+        return
+    }
+}
+function overlay(image) {
+    image.onload = function () {
+        ctx.drawImage(image, 0, 0);
+        return
+    }
+}
+
+function overlayCanvas(canvas1, canvas2) {
+    c1ImgData = canvas1.getImageData(0, 0, canvas.width, canvas.height)
+    c2ImgData = canvas2.getImageData(0, 0, canvas.width, canvas.height)
+    const c1Data = c1ImgData.data;
+    const c2Data = c2ImgData.data;
+    for (var i = 0; i < c2Data.length; i += 4) {
+        if (c2Data[i + 3]) {
+            c1Data[i] = c2Data[i]
+            c1Data[i + 1] = c2Data[i + 1]
+            c1Data[i + 2] = c2Data[i + 2]
         }
-        return rgba;
-    });
-});
-
-Caman.Filter.register("colorize_shirt", function () {
-    var color_array = sharedPreset.colours.colorShirt.replace("rgb(", "").replace(")", "").split(",")
-    this.process("colorize_shirt", function (rgba) {
-        if (rgba.a > 0) {
-            rgba.r = rgba.r - (255 - color_array[0])
-            rgba.g = rgba.g - (255 - color_array[1])
-            rgba.b = rgba.b - (255 - color_array[2])
-        }
-        return rgba;
-    });
-});
-
-Caman.Filter.register("colorize_mouth", function () {
-    var color_array = sharedPreset.colours.colorMouth.replace("rgb(", "").replace(")", "").split(",")
-    this.process("colorize_mouth", function (rgba) {
-        if (rgba.a > 0) {
-            rgba.r = rgba.r - (255 - color_array[0])
-            rgba.g = rgba.g - (255 - color_array[1])
-            rgba.b = rgba.b - (255 - color_array[2])
-        }
-        return rgba;
-    });
-});
-
-Caman.Filter.register("colorize_iris", function () {
-    var color_array = sharedPreset.colours.colorIris.replace("rgb(", "").replace(")", "").split(",")
-    this.process("colorize_iris", function (rgba) {
-        if (rgba.a > 0) {
-            rgba.r = rgba.r - (255 - color_array[0])
-            rgba.g = rgba.g - (255 - color_array[1])
-            rgba.b = rgba.b - (255 - color_array[2])
-        }
-        return rgba;
-    });
-});
-
-Caman.Filter.register("colorize_sclera", function () {
-    var color_array = sharedPreset.colours.colorSclera.replace("rgb(", "").replace(")", "").split(",")
-    this.process("colorize_sclera", function (rgba) {
-        if (rgba.a > 0) {
-            rgba.r = rgba.r - (255 - color_array[0])
-            rgba.g = rgba.g - (255 - color_array[1])
-            rgba.b = rgba.b - (255 - color_array[2])
-        }
-        return rgba;
-    });
-});
-
-Caman.Filter.register("colorize_base", function () {
-    var color_array = sharedPreset.colours.colorBase.replace("rgb(", "").replace(")", "").split(",")
-    this.process("colorize_base", function (rgba) {
-        if (rgba.a > 10) {
-            rgba.r = rgba.r - (255 - color_array[0])
-            rgba.g = rgba.g - (255 - color_array[1])
-            rgba.b = rgba.b - (255 - color_array[2])
-        }
-        return rgba;
-    });
-});
-
-Caman.Filter.register("colorize_trousers", function () {
-    var color_array = sharedPreset.colours.colorTrousers.replace("rgb(", "").replace(")", "").split(",")
-    this.process("colorize_trousers", function (rgba) {
-        if (rgba.a > 10) {
-            rgba.r = rgba.r - (255 - color_array[0])
-            rgba.g = rgba.g - (255 - color_array[1])
-            rgba.b = rgba.b - (255 - color_array[2])
-        }
-        return rgba;
-    });
-});
-
-Caman.Filter.register("colorize_shoes", function () {
-    var color_array = sharedPreset.colours.colorShoes.replace("rgb(", "").replace(")", "").split(",")
-    this.process("colorize_shoes", function (rgba) {
-        if (rgba.a > 10) {
-            rgba.r = rgba.r - (255 - color_array[0])
-            rgba.g = rgba.g - (255 - color_array[1])
-            rgba.b = rgba.b - (255 - color_array[2])
-        }
-        return rgba;
-    });
-});
-
-var presets = JSON.parse(localStorage.getItem("userPresets"))
-
+    }
+    canvas1.putImageData(c1ImgData, 0, 0);
+    return
+}
 
 function getUrlVars() {
     var vars = {};
@@ -267,24 +112,21 @@ function getUrlVars() {
     return vars;
 }
 
-const sharedPreset = JSON.parse(decodeURIComponent(getUrlVars().preset))
-eyesEntry = sharedPreset.elements.eyes
-hairEntry = sharedPreset.elements.hair
-bgEntry = sharedPreset.elements.bg
-shirtEntry = sharedPreset.elements.shirt
-mouthEntry = sharedPreset.elements.mouth
-trousersEntry = sharedPreset.elements.trousers
-baseEntry = sharedPreset.elements.base
-accessoriesEntry = sharedPreset.elements.accessories
-createImage()
-
-
 function savePreset() {
+    currentPreset = {
+        "colours": {},
+        "elements": {}
+    }
+    for (element of elementsJSON) {
+        currentPreset.colours[element.id] = element.colour
+        currentPreset.elements[element.id] = element.currentlySelected
+    }
+    currentPreset.image = canvas.toDataURL("image/png")
     if (presets != null) {
-        presets.push(sharedPreset)
+        presets.push(currentPreset)
 
     } else {
-        presets = [sharedPreset]
+        presets = [currentPreset]
     }
     localStorage.setItem("userPresets", JSON.stringify(presets))
     window.location.href = "./index.html";

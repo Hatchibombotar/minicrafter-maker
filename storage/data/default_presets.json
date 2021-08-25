@@ -1,0 +1,52 @@
+[
+    {
+        "name": "Steve",
+        "image": "./storage/assets/presets/steve.png",
+        "colours": {
+            "eyes": [70,54,125],
+            "hair": [37,25,11],
+            "mouth": [99,59,49],
+            "shirt": [0,154,162],
+            "trousers": [59,50,155],
+            "background": [192,203,220],
+            "base": [181,137,117],
+            "shoes": [123,123,123]
+        },
+        "elements": {
+            "eyes": "steve",
+            "hair": "steve",
+            "background": "plain",
+            "shirt": "steve",
+            "mouth": "steve",
+            "trousers": "steve",
+            "base": "steve",
+            "accessories": "none",
+            "shoes": "default"
+        }
+    },
+    {
+        "name": "Alex",
+        "image": "./storage/assets/presets/alex.png",
+        "colours": {
+            "eyes": [25,83,26],
+            "hair": [229,142,64],
+            "mouth": [207,161,153],
+            "shirt": [113,154,112],
+            "trousers": [84,57,38],
+            "background": [192,203,220],
+            "base": [219,198,169],
+            "shoes": [123,123,123]
+        },
+        "elements": {
+            "eyes": "steve",
+            "hair": "alex",
+            "background": "plain",
+            "shirt": "alex",
+            "mouth": "steve",
+            "trousers": "steve",
+            "base": "alex",
+            "accessories": "none",
+            "shoes": "default"
+        }
+    }
+]
