@@ -1,8 +1,6 @@
 var elementsJSON, defaultPresets;
 var presets = JSON.parse(localStorage.getItem("userPresets"))
 
-var canvas = document.getElementById("canvas")
-var ctx = canvas.getContext('2d');
 
 itterations_length = 0
 
@@ -16,12 +14,10 @@ elementsxobj.open("GET", "./storage/data/elements.json", true)
 elementsxobj.onload = function () {
     elementsJSON = JSON.parse(elementsxobj.responseText);
     itterations_length = elementsJSON.length
+    createCanvas()
     createSelectionPane()
     createColours()
     createCustomColours()
-
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    processingCanvasContext.fillRect(0, 0, canvas.width, canvas.height);
     createImage()
     setTimeout(
         function () {
@@ -48,6 +44,19 @@ defaultPresets_xobj.onload = function () {
     createPresetImage()
 }
 defaultPresets_xobj.send()
+
+function createCanvas() {
+    for (element of elementsJSON) {
+        for (part of Object.keys(element.parts)) {
+            const canvas = document.createElement("canvas")
+            canvas.setAttribute("class", "canvas")
+            canvas.setAttribute("id", `${element.id}.${part}`)
+            canvas.setAttribute("width", 32)
+            canvas.setAttribute("height", 32)
+            document.getElementById("canvasContainer").appendChild(canvas)
+        }
+    }
+}
 
 function createSelectionPane() {
     for (element of elementsJSON) {
@@ -155,73 +164,37 @@ function selectElement(category, element) {
 
 itterations = 0
 
-var processingCanvas = document.createElement('canvas');
-processingCanvas.width = 32;
-processingCanvas.height = 32;
-// document.getElementById("output").appendChild(processingCanvas)
-
-var processingCanvasContext = processingCanvas.getContext("2d");
 
 function createImage() {
-    if (itterations >= itterations_length) {
-        overlayCanvas(ctx, processingCanvasContext)
-        itterations = 0
-        return
-    }
-    if (itterations == 0) {
-        itterations = 0
-        processingCanvasContext.fillRect(0, 0, canvas.width, canvas.height);
-    }
-    element = elementsJSON[itterations]
-    for (key of Object.keys(element.parts)) {
-        const part = element.parts[key]
-        if (part.elements.indexOf(element.currentlySelected) != -1) {
-            var path = `./storage/assets/elements/${element.id}/${key}/${element.currentlySelected}.png`
-            var image = new Image()
-            image.src = path
-            if (part.colour) {
-                overlayAndColourfy(image, element.colour)
+    for (const element of elementsJSON) {
+        for (const part of Object.keys(element.parts)) {
+            if (element.parts[part].elements.indexOf(element.currentlySelected) != -1) {
+                const path = `./storage/assets/elements/${element.id}/${part}/${element.currentlySelected}.png`
+                const image = new Image()
+                image.src = path
+                const canvasCtx = document.getElementById(`${element.id}.${part}`).getContext("2d")
+                image.onload = function () {
+                    canvasCtx.clearRect(0, 0, 32, 32);
+                    canvasCtx.drawImage(image, 0, 0);
+                    if (element.parts[part].colour === true) {
+                        const colourId = element.colour
+
+                        const imageData = canvasCtx.getImageData(0, 0, 32, 32);
+                        const data = imageData.data;
+                        for (var i = 0; i < data.length; i += 4) {
+                            if (data[i + 3] != 0) {
+                                data[i] = data[i] - (255 - colourId[0]);     // red
+                                data[i + 1] = data[i + 1] - (255 - colourId[1]); // green
+                                data[i + 2] = data[i + 2] - (255 - colourId[2]); // blue
+                            }
+                        }
+                        canvasCtx.putImageData(imageData, 0, 0);
+                    }
+                }
             } else {
-                overlay(image)
+                document.getElementById(`${element.id}.${part}`).getContext("2d").clearRect(0, 0, 32, 32);
             }
         }
-    }
-    setTimeout(
-        function () {
-            itterations += 1
-            createImage();
-        }, 30
-    )
-}
-
-function overlayAndColourfy(image, colourId) {
-    var newCanvasLayer = document.createElement('canvas');
-    newCanvasLayer.width = 32;
-    newCanvasLayer.height = 32;
-
-    var newCanvasLayerCtx = newCanvasLayer.getContext("2d");
-
-    image.onload = function () {
-        newCanvasLayerCtx.drawImage(image, 0, 0);
-        const imageData = newCanvasLayerCtx.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imageData.data;
-        for (var i = 0; i < data.length; i += 4) {
-            if (data[i + 3] != 0) {
-                data[i] = data[i] - (255 - colourId[0]);     // red
-                data[i + 1] = data[i + 1] - (255 - colourId[1]); // green
-                data[i + 2] = data[i + 2] - (255 - colourId[2]); // blue
-            }
-        }
-        newCanvasLayerCtx.putImageData(imageData, 0, 0);
-
-        overlayCanvas(processingCanvasContext, newCanvasLayerCtx)
-        return
-    }
-}
-function overlay(image) {
-    image.onload = function () {
-        processingCanvasContext.drawImage(image, 0, 0);
-        return
     }
 }
 
@@ -281,7 +254,19 @@ function createPreset() {
         currentPreset.colours[element.id] = element.colour
         currentPreset.elements[element.id] = element.currentlySelected
     }
-    currentPreset.image = canvas.toDataURL("image/png")
+    currentPreset.image = "./storage/assets/presets/custom.png"
+    // const currentCanvass = document.getElementsByClassName("canvas")
+    // const displayCanvas = document.createElement("canvas")
+    // for (currentCanvas of currentCanvass) {
+    //     const layerImage = new Image()
+    //     layerImage.src = currentCanvas.toDataURL("image/png")
+    //     layerImage.onload = function () {
+    //         displayCanvas.getContext("2d").drawImage(layerImage, 0, 0)
+    //     }
+    //     overlayCanvas(currentCanvas.getContext("2d"), displayCanvas.getContext("2d"))
+    // }
+    // currentPreset.image = displayCanvas.toDataURL("image/png")
+
     if (presets != null) {
         presets.push(currentPreset)
 
