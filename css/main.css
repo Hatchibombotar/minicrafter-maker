@@ -20,6 +20,15 @@ body {
   font-family: minecraftten, Arial, Helvetica, sans-serif;
 }
 
+#canvas {
+  width: 320px;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+
 .item1 {
   background-color: rgb(163, 163, 163);
   height: auto;
@@ -260,26 +269,6 @@ body {
 .footnote {
   margin-left: 10px;
 }
-.canvas-container {
-  margin: 0;
-  padding: 0;
-  position: relative;
-}
-
-.canvas {
-  position: absolute; left: 0; top: 0; 
-  
-  width: 320px;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: -webkit-crisp-edges;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-}
-
-.canvas-container-container {
-  width: 320px;
-  height: 320px;
-}
 
 @media screen and (max-width: 650px) {
   .grid-containerA {
@@ -317,12 +306,11 @@ body {
     justify-content: center;
     flex-direction: column;
   }
+  #canvas {
+    width: 100%;
+    max-width: 320px;
+  }
   .footnote {
     text-align: center;
   }
-  .canvas-container-container, .canvas-container, .canvas {
-    width: 100% !important;
-    max-width: 320px;
-  }
 }
-
