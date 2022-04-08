@@ -1,53 +1,23 @@
-var elementsJSON, defaultPresets;
-var presets = JSON.parse(localStorage.getItem("userPresets"))
+let elementsJSON, defaultPresets;
+let presets = JSON.parse(localStorage.getItem("userPresets")) ?? []
+let canvas = new Canvas(document.getElementById("canvas"))
+jscolor.presets.default.format = "rgb"
 
-var canvas = document.getElementById("canvas")
-var ctx = canvas.getContext('2d');
+async function init() {
+    let response = await fetch("./storage/data/elements.json")
+    elementsJSON = await response.json()
 
-itterations_length = 0
-
-jscolor.presets.default = {
-    format: 'rgb'
-};
-
-const elementsxobj = new XMLHttpRequest()
-elementsxobj.overrideMimeType("application/json")
-elementsxobj.open("GET", "./storage/data/elements.json", true)
-elementsxobj.onload = function () {
-    elementsJSON = JSON.parse(elementsxobj.responseText);
-    itterations_length = elementsJSON.length
     createSelectionPane()
-    createColours()
-    createCustomColours()
 
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    processingCanvasContext.fillRect(0, 0, canvas.width, canvas.height);
-    createImage()
-    setTimeout(
-        function () {
-            itterations += 1
-            createImage();
-        }, 1000
-    )
-}
-elementsxobj.send()
-
-const defaultPresets_xobj = new XMLHttpRequest()
-defaultPresets_xobj.overrideMimeType("application/json")
-defaultPresets_xobj.open("GET", "./storage/data/default_presets.json", true)
-defaultPresets_xobj.onload = function () {
-    defaultPresets = JSON.parse(defaultPresets_xobj.responseText);
-    for (i in defaultPresets) {
-        const preset = document.createElement("img")
-        preset.setAttribute("class", "presetimage")
-        preset.setAttribute("src", defaultPresets[i].image)
-        preset.setAttribute("onClick", `setDefaultPreset('${i}')`)
-        preset.setAttribute("alt", `Custom Preset Image ${defaultPresets[i].name}`)
-        document.getElementById("preset_container").appendChild(preset)
-    }
+    await createDefaultPresets()
     createPresetImage()
+
+    canvas.ctx.fillStyle = "#c0cbdc"
+    canvas.ctx.fillRect(0, 0, canvas.canvas.width, canvas.canvas.height)
+    drawImage()
 }
-defaultPresets_xobj.send()
+
+init()
 
 function createSelectionPane() {
     for (element of elementsJSON) {
@@ -57,7 +27,7 @@ function createSelectionPane() {
         icon.setAttribute("id", element.id + "Img")
         icon.setAttribute("alt", element.id)
         icon.setAttribute("onclick", `toggleSelectedCategory('${element.id}')`)
-        document.getElementById("category").appendChild(icon)
+        document.getElementById("categories").appendChild(icon)
         for (part of element.elements) {
             if (element.showElements === false) continue
             const partIcon = document.createElement("img")
@@ -69,53 +39,44 @@ function createSelectionPane() {
             document.getElementById("parts").appendChild(partIcon)
         }
     }
-}
-function createColours() {
-    for (element of elementsJSON) {
-        if (element.defaultColours === undefined) return
+
+    // Creates the colour selection buttons
+
+    for (const element of elementsJSON) {
+        const customColour = document.createElement('button')
+        customColour.setAttribute("id", `customColour, Category: ${element.id}`)
+        customColour.setAttribute("class", "colour")
+        customColour.setAttribute("aria-label", "Custom Colour")
+        customColour.style["display"] = `none`
+
+        new JSColor(customColour, { onChange: `selectCustomColour('${element.id}')` })
+        
+        if (element.defaultColours === undefined) continue
         for (colourIndex in element.defaultColours) {
             const colour = element.defaultColours[colourIndex]
             const colourDiv = document.createElement("div")
             colourDiv.setAttribute("class", "colour")
             colourDiv.setAttribute("id", `Category: ${element.id}, Index: ${colourIndex}`)
-            colourDiv.setAttribute("onClick", `selectColour('${element.id}', '${colourIndex}')`)
-            colourDiv.style["background-color"] = `rgb(${colour[0]}, ${colour[1]}, ${colour[2]})`
+            colourDiv.setAttribute("onClick", `setPartColor('${element.id}', ${JSON.stringify(colour)})`)
+            colourDiv.style["background-color"] = `rgb(${colour})`
             colourDiv.style["display"] = `none`
             document.getElementById("colours").appendChild(colourDiv)
         }
 
-    }
-}
-function createCustomColours() {
-    for (element of elementsJSON) {
-        var button = document.createElement('button');
-        button.setAttribute("id", `customColour, Category: ${element.id}`)
-        button.setAttribute("class", "colour")
-        button.setAttribute("aria-label", "Custom Colour")
-        button.style["display"] = `none`
-        // button.setAttribute("data-jscolor", `{"onChange: 'selectCustomColour(${element.id})'"}`)
-
-        var options = { onChange: `selectCustomColour('${element.id}')` };
-
-        new JSColor(button, options); // 'JSColor' is an alias to 'jscolor'
-
-        document.querySelector('#colours').appendChild(button);
+        document.getElementById("colours").appendChild(customColour)
     }
 }
 
 function selectCustomColour(category) {
-    let currentColourChannels = document.getElementById(`customColour, Category: ${category}`).jscolor.channels //customColour, Category: background
-    elementIndex = elementsJSON.findIndex(x => x.id == category)
-    elementsJSON[elementIndex].colour = [currentColourChannels.r, currentColourChannels.g, currentColourChannels.b]
-    createImage()
+    const currentColourChannels = document.getElementById(`customColour, Category: ${category}`).jscolor.channels
+    setPartColor(category, [currentColourChannels.r, currentColourChannels.g, currentColourChannels.b])
 }
 
-function selectColour(id, index) {
-    elementIndex = elementsJSON.findIndex(x => x.id == id)
-    elementsJSON[elementIndex].colour = elementsJSON[elementIndex].defaultColours[index]
-    createImage()
+function setPartColor(category, colour) {
+    categoryIndex = elementsJSON.findIndex(x => x.id == category)
+    elementsJSON[categoryIndex].colour = colour
+    drawImage()
 }
-
 
 function toggleSelectedCategory(selectedCategory) {
     for (element of elementsJSON) {
@@ -132,7 +93,6 @@ function toggleSelectedCategory(selectedCategory) {
             if (element.defaultColours === undefined) continue
             const thing = document.getElementById(`Category: ${element.id}, Index: ${colourIndex}`)
             if (element.id != selectedCategory) {
-                // thing.classList.add("invisible")
                 thing.style.display = "none"
             } else {
                 thing.style.display = ""
@@ -150,170 +110,74 @@ function toggleSelectedCategory(selectedCategory) {
 function selectElement(category, element) {
     elementIndex = elementsJSON.findIndex(x => x.id == category)
     elementsJSON[elementIndex].currentlySelected = element
-    createImage()
-}
-
-itterations = 0
-
-var processingCanvas = document.createElement('canvas');
-processingCanvas.width = 32;
-processingCanvas.height = 32;
-// document.getElementById("output").appendChild(processingCanvas)
-
-var processingCanvasContext = processingCanvas.getContext("2d");
-
-function createImage() {
-    if (itterations >= itterations_length) {
-        overlayCanvas(ctx, processingCanvasContext)
-        itterations = 0
-        return
-    }
-    if (itterations == 0) {
-        itterations = 0
-        processingCanvasContext.fillRect(0, 0, canvas.width, canvas.height);
-    }
-    element = elementsJSON[itterations]
-    for (key of Object.keys(element.parts)) {
-        const part = element.parts[key]
-        if (part.elements.indexOf(element.currentlySelected) != -1) {
-            var path = `./storage/assets/elements/${element.id}/${key}/${element.currentlySelected}.png`
-            var image = new Image()
-            image.src = path
-            if (part.colour) {
-                overlayAndColourfy(image, element.colour)
-            } else {
-                overlay(image)
-            }
-        }
-    }
-    setTimeout(
-        function () {
-            itterations += 1
-            createImage();
-        }, 30
-    )
-}
-
-function overlayAndColourfy(image, colourId) {
-    var newCanvasLayer = document.createElement('canvas');
-    newCanvasLayer.width = 32;
-    newCanvasLayer.height = 32;
-
-    var newCanvasLayerCtx = newCanvasLayer.getContext("2d");
-
-    image.onload = function () {
-        newCanvasLayerCtx.drawImage(image, 0, 0);
-        const imageData = newCanvasLayerCtx.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imageData.data;
-        for (var i = 0; i < data.length; i += 4) {
-            if (data[i + 3] != 0) {
-                data[i] = data[i] - (255 - colourId[0]);     // red
-                data[i + 1] = data[i + 1] - (255 - colourId[1]); // green
-                data[i + 2] = data[i + 2] - (255 - colourId[2]); // blue
-            }
-        }
-        newCanvasLayerCtx.putImageData(imageData, 0, 0);
-
-        overlayCanvas(processingCanvasContext, newCanvasLayerCtx)
-        return
-    }
-}
-function overlay(image) {
-    image.onload = function () {
-        processingCanvasContext.drawImage(image, 0, 0);
-        return
-    }
-}
-
-function overlayCanvas(canvas1, canvas2) {
-    c1ImgData = canvas1.getImageData(0, 0, canvas.width, canvas.height)
-    c2ImgData = canvas2.getImageData(0, 0, canvas.width, canvas.height)
-    const c1Data = c1ImgData.data;
-    const c2Data = c2ImgData.data;
-    for (var i = 0; i < c2Data.length; i += 4) {
-        if (c2Data[i + 3]) {
-            c1Data[i] = c2Data[i]
-            c1Data[i + 1] = c2Data[i + 1]
-            c1Data[i + 2] = c2Data[i + 2]
-        }
-    }
-    canvas1.putImageData(c1ImgData, 0, 0);
-    return
+    drawImage()
 }
 
 // Everything to do with the preset system
 
-function createPresetImage() {
-    for (i in presets) {
+async function createDefaultPresets() {
+    let response = await fetch("./storage/data/default_presets.json")
+    defaultPresets = await response.json()
+
+    for (i in defaultPresets) {
         const preset = document.createElement("img")
-        preset.setAttribute("class", "presetimage customPreset")
-        preset.setAttribute("src", presets[i].image)
-        preset.setAttribute("onClick", `setCustomPreset('${i}')`)
-        preset.setAttribute("alt", `Custom Preview Image ${i}`)
+        preset.setAttribute("class", "presetimage")
+        preset.setAttribute("src", defaultPresets[i].image)
+        preset.setAttribute("onClick", `setDefaultPreset('${i}')`)
+        preset.setAttribute("alt", `Custom Preset Image ${defaultPresets[i].name}`)
+
         document.getElementById("preset_container").appendChild(preset)
     }
 }
 
-function setDefaultPreset(number) {
-    const preset = defaultPresets[number]
-    for (element of elementsJSON) {
-        element.colour = preset.colours[element.id]
-        element.currentlySelected = preset.elements[element.id]
+// creates the custom presets
+function createPresetImage() {
+    for (i in presets) {
+        createPresetElement(presets[i], i)
     }
-    createImage()
+}
+
+function createPresetElement(preset, presetID) {
+    const presetElement = document.createElement("img")
+    presetElement.setAttribute("class", "presetimage customPreset")
+    presetElement.setAttribute("src", preset.image)
+    presetElement.setAttribute("onClick", `setCustomPreset('${presetID}')`)
+    presetElement.setAttribute("alt", `Custom Preview Image ${presetID}`)
+    document.getElementById("preset_container").appendChild(presetElement)
+}
+
+function setDefaultPreset(number) {
+    setAsPreset(defaultPresets[number])
 }
 
 function setCustomPreset(number) {
-    const preset = presets[number]
+    setAsPreset(presets[number])
+}
+
+function setAsPreset(preset) {
     for (element of elementsJSON) {
         element.colour = preset.colours[element.id]
         element.currentlySelected = preset.elements[element.id]
     }
-    createImage()
+    drawImage()
 }
-
-function createPreset() {
-    currentPreset = {
-        "colours": {},
-        "elements": {}
-    }
-    for (element of elementsJSON) {
-        currentPreset.colours[element.id] = element.colour
-        currentPreset.elements[element.id] = element.currentlySelected
-    }
-    currentPreset.image = canvas.toDataURL("image/png")
-    if (presets != null) {
-        presets.push(currentPreset)
-
-    } else {
-        presets = [currentPreset]
-    }
-    localStorage.setItem("userPresets", JSON.stringify(presets))
-
-    var preset_image = document.createElement("img")
-    preset_image.setAttribute("class", "presetimage customPreset")
-    preset_image.setAttribute("src", currentPreset.image)
-    preset_image.setAttribute("onClick", `setCustomPreset('${presets.length - 1}')`)
-    document.getElementById("preset_container").appendChild(preset_image)
-}
-
 
 function resetPresets() {
     if (confirm("Are you sure you want to delete all your custom presets?")) {
         localStorage.setItem("userPresets", null)
-        document.querySelectorAll('.customPreset').forEach(e => e.remove());
+        document.querySelectorAll('.customPreset').forEach(e => e.remove())
     }
 }
 
 function deleteLastPreset() {
     presets.pop()
     localStorage.setItem("userPresets", JSON.stringify(presets))
-    document.querySelectorAll('.customPreset').forEach(e => e.remove());
+    document.querySelectorAll('.customPreset').forEach(e => e.remove())
     createPresetImage()
 }
 
 function togglePresetExtras() {
-    for (i of document.querySelectorAll('.hideable')) {
+    for (i of document.getElementsByClassName('hideable')) {
         if (!i.classList.contains("invisible")) {
             i.classList.add("invisible")
         } else {
@@ -327,5 +191,5 @@ function shareLink() {
     for (element of elementsJSON) {
         shareLink[element.id] = [element.currentlySelected, element.colour]
     }
-    window.location.href = `./share.html?preset=${encodeURIComponent(JSON.stringify(shareLink))}`;
+    window.location.href = `./share.html?preset=${encodeURIComponent(JSON.stringify(shareLink))}`
 }

@@ -14,26 +14,35 @@
   <link rel="stylesheet" href="./css/main.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/3.3.0/caman.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.5/jscolor.js"></script>
+
+  <script src=./js/canvasOperations.js></script>
+  <script src=./js/createCharacter.js></script>
 </head>
 
 <body>
+  <h1 class="title">Minicrafter Maker</h1>
 
-  <h1>Minicrafter Maker</h1>
-  <div class="buttons"><a href="https://github.com/Hatchibombotar/minicrafter-maker"><img alt="Github Project Page"
-        src="./images/github.png"></a> <img onclick="changeLanguage()" alt="Change Language"
-      src="./images/globe.png"> </div>
-  <div class="center-childen">
-    <div id="output">
+  <div class="social-buttons">
+    <a href="https://github.com/Hatchibombotar/minicrafter-maker">
+      <img alt="Github Project Page" src="./images/github.png">
+    </a>
+  </div>
+  
+  <div class="main-panel">
+    <div class="share-panel">
       <h2>You got Mail!</h2>
       <p class="descriptionShareText">Someone has shared you their MiniCrafter!</p>
       <div class="centeredImage">
+        <img id="loading" src="./images/loading.gif" alt="loading...">
         <canvas id="canvas" alt="Empty Minicrafter Image" height="32" width="32"></canvas>
-      <div class="sharedPreset">
-        <button class="preset_buttons" onclick="savePreset()">SAVE</button><a href="./index.html"><button class="preset_buttons"
-         >CANCEL</button></a><br>
-         <textarea id="url_area"></textarea><script>document.getElementById("url_area").innerHTML = document.location.href</script>
+        <div class="sharedPreset">
+          <button class="preset_buttons" onclick="createPreset()">SAVE</button><a href="./index.html"><button
+              class="preset_buttons">CANCEL</button></a><br>
+          <textarea id="url_area"></textarea>
+          <script>document.getElementById("url_area").innerHTML = document.location.href</script>
+        </div>
       </div>
-    </div>
-    <script src=./js/share_screen.js></script>
+      <script src=./js/share_screen.js></script>
 </body>
+
 </html>

@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="icon" href="./images/icon.png" type="image/x-icon">
+  
   <title>Minicrafter Maker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta content="MinicrafterMaker" property="og:title">
@@ -13,52 +14,65 @@
   <meta property="og:url" content="https://hatchibombotar.com/minicrafter-maker" />
 
   <link rel="stylesheet" href="./css/main.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.5/jscolor.js"></script>
 
-  <script src=./js/contibutors.js></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.5/jscolor.js"></script>
+  <script src=./js/contributors.js></script>
+  <script src=./js/canvasOperations.js></script>
+  <script src=./js/createCharacter.js></script>
 </head>
 
 <body>
-  <div class="title"><a>Minicrafter Maker</a></div>
-    <!-- <img src="./images/icon.png"></div> -->
-  <div class="buttons"><a href="https://github.com/Hatchibombotar/minicrafter-maker"><img alt="Github Project Page"
-        src="./images/github.png"></a>
+  <h1 class="title">Minicrafter Maker</h1>
+
+  <div class="social-buttons">
+    <a href="https://github.com/Hatchibombotar/minicrafter-maker">
+      <img alt="Github Project Page" src="./images/github.png">
+    </a>
   </div>
-  <div class="grid-containerA">
-    <div class="item1">
+
+  <div class="main-panel">
+    <div class="customise-panel">
       <h2>Settings</h2>
-      <div class="bits-and-bobs">
-        <div class="category" id="category"></div>
+      <div class="customise-options">
+        <div class="categories" id="categories"></div>
         <div class="parts" id="parts">
           <p id="hint-text">Press an icon to change how the character looks!</p>
         </div>
         <div class="colours" id="colours">
-          <!-- <button class="colour" data-jscolor="" aria-label="Custom Colour"></button> -->
         </div>
       </div>
     </div>
-    <div id="output">
-      <h2>Preview</h2>
+
+    <div class="preview-panel">
+      <h2>Preview </h2>
+
+      <img id="loading" src="./images/loading.gif" alt="loading...">
       <canvas id="canvas" alt="Empty Minicrafter Image" height="32" width="32"></canvas>
+
       <h4 class="reset_padding_margin">Presets</h4>
       <div class="preset_container" id="preset_container"></div>
 
-      <button class="preset_buttons" onclick="togglePresetExtras()">EDIT</button><button class="preset_buttons"
-        onclick="createPreset()">NEW</button><button class="preset_buttons" onclick="shareLink()">SHARE</button><button
-        class="preset_buttons hideable invisible" onclick="resetPresets()">RESET</button><button
-        class="preset_buttons hideable invisible" onclick="deleteLastPreset()">DELETE LAST</button>
+      <div class="preset-buttons-container">
+        <button onclick="togglePresetExtras()">EDIT</button>
+        <button onclick="createPreset()">NEW</button>
+        <button onclick="shareLink()">SHARE</button>
+        <button class="hideable invisible" onclick="resetPresets()">RESET</button>
+        <button class="hideable invisible" onclick="deleteLastPreset()">DELETE LAST</button>
+      </div>
     </div>
   </div>
-  <h6 id="progress"></h6>
+
   <div class="footnote">
-    <a class="smaller">Original minicrafter design by <a class="smaller"
-        href="https://www.planetminecraft.com/member/chesto_">Chesto#5842</a></a><br>
-    <a class="smaller">Minicrafter Maker created by <a class="smaller"
-        href="https://github.com/Hatchibombotar">hatchibombotar#3794</a></a><br>
-    <strong>Contributors:</strong>
-    <div id="contributor_section"></div>
-    <a class="smaller">This website is not affiliated with Mojang Studios</a><br>
+    <a>Minicrafter Maker created by <a href="https://github.com/Hatchibombotar">hatchibombotar#3794</a></a>
+    <br>
+
+    <a>Original minicrafter design by <a href="https://www.planetminecraft.com/member/chesto_">Chesto#5842</a></a>
+    <br>
+
+    <div id="contributor-section"></div>
+    <a>This website is not affiliated with Mojang Studios</a>
   </div>
+
   <script src=./js/index.js></script>
 </body>
 

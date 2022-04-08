@@ -14,10 +14,9 @@
 
 body {
   font-family: minecraftfive, Arial, Helvetica, sans-serif;
-}
-
-.ten {
-  font-family: minecraftten, Arial, Helvetica, sans-serif;
+  background-image: linear-gradient(#005592, #d29196);
+  
+  background-color: #d29196;
 }
 
 #canvas {
@@ -28,38 +27,25 @@ body {
   image-rendering: crisp-edges;
 }
 
-
-.item1 {
-  background-color: rgb(163, 163, 163);
-  height: auto;
-  width: auto;
-  padding-left: 7px;
-  padding-right: 7px;
+.main-panel > div {
   margin: 8px;
-}
-
-#output {
-  grid-area: display;
   background-color: rgb(134, 134, 134);
   height: auto;
   width: auto;
-  display: flexbox;
-  margin: 8px;
+}
+.customise-panel {
+  padding-left: 7px;
+  padding-right: 7px;
 }
 
-.left_button, .right_button, .text_button {
+.minecraft-button {
   color: white;
-  height: 40px;
-  width: 40px;
   box-shadow: 0 -4px rgb(21 108 0 / 50%) inset, 0 4px rgb(100 253 31 / 99%) inset, -4px 0 rgb(100 253 31 / 50%) inset, 4px 0 rgb(21 108 0 / 50%) inset;
   background: #34aa2f;
-} */
-
-.left_button, .right_button, .preset_buttons {
   cursor: pointer;
 }
 
-#color_panel h2, .item1 h2, #output h2 {
+.main-panel > div h2{
   margin-top: 1px;
   margin-bottom: 0px;
   text-align: center;
@@ -71,24 +57,7 @@ body h1 {
   margin-bottom: 5px;
 }
 
-#color_panel h2, .item1 h2, #output h2 {
-  margin-top: 1px;
-  margin-bottom: 0px;
-  text-align: center;
-}
-
-.smaller {
-  font-size: 10px;
-}
-
-.user_avatar {
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  padding: 1px
-}
-
-.buttons img {
+.social-buttons img {
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -98,7 +67,7 @@ body h1 {
   cursor: pointer;
 }
 
-.buttons {
+.social-buttons {
   margin: 0 auto;
   justify-content: center;
   display: flex
@@ -143,7 +112,7 @@ body h1 {
   padding-left: 5px;
 }
 
-.preset_buttons {
+.preset-buttons-container button {
   box-shadow: 0 -4px rgb(108 108 108 / 50%) inset, 0 4px rgb(253 253 253 / 99%) inset, -4px 0 rgb(100 100 100 / 50%) inset, 4px 0 rgb(21 21 21 / 50%) inset;
   background: #acacac;
   height: 30px;
@@ -166,20 +135,13 @@ body h1 {
   text-align: center;
 }
 
-/* Extras */
-
-body {
-  background-color: #d29196;
-  background-image: linear-gradient(#005592, #d29196);
-}
-
-.grid-containerA>div {
+.main-panel>div {
   background-image: linear-gradient(#94979f, #c4b9b7);
   border: 5px solid #64606e;
   box-shadow: inset 0 -4px 50px 0px #968f8f, inset 0 -6px 0 0px #868086;
 }
 
-.category {
+.categories {
   display: grid;
   grid-gap: 5px;
   padding: 5px;
@@ -192,9 +154,10 @@ body {
   height: 50px;
   cursor: pointer;
   user-select: none;
+  -webkit-user-select: none;
 }
 
-.grid-containerA {
+.main-panel {
   display: flex;
   justify-content: center;
 }
@@ -217,7 +180,7 @@ body {
   padding: 0;
 }
 
-.category .category-image {
+.categories .category-image {
   height: 40px;
 }
 
@@ -230,51 +193,42 @@ body {
 .colour {
   width: 35px;
   height: 35px;
-  background-color: red;
+  background-color: rgb(0, 0, 0);
   margin: 4px;
   cursor: pointer;
   border: none;
   border-radius: 0;
 }
 
-.center-childen {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.center-childen>div {
-  background-image: linear-gradient(#94979f, #c4b9b7);
-  border: 5px solid #64606e;
-  box-shadow: inset 0 -4px 50px 0px #968f8f, inset 0 -6px 0 0px #868086;
-}
-
-.title>a {
+.title {
   text-shadow: 0 3px cornflowerblue;
   font-weight: 100;
   font-size: 35px;
   font-family: minecraftten, Arial, Helvetica, sans-serif;
-}
-
-.title>img {
-  height: 25px;
-  padding-left: 5px;
-}
-
-.title {
   text-align: center;
+  margin: 0;
 }
 
 .footnote {
   margin-left: 10px;
 }
 
+.footnote a {
+  font-size: 10px;
+}
+
+#contributor-section img {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  padding: 1px
+}
+
 @media screen and (max-width: 650px) {
-  .grid-containerA {
+  .main-panel {
     display: block;
   }
-  .category {
+  .categories {
     display: block;
   }
   .category-image {
@@ -291,7 +245,7 @@ body {
     margin-left: 5px;
     width: unset;
   }
-  #output {
+  .preview-panel {
     text-align: center;
   }
   .parts {
@@ -300,7 +254,7 @@ body {
   .colour {
     display: inline-block;
   }
-  .bits-and-bobs {
+  .customise-options {
     text-align: center;
     display: flex;
     justify-content: center;
@@ -313,4 +267,8 @@ body {
   .footnote {
     text-align: center;
   }
+}
+
+#loading {
+  position: absolute;
 }
