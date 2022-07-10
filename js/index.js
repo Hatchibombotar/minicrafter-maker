@@ -164,7 +164,7 @@ function createPresetElement(preset, defaultPreset = false) {
 
     const deleteButton = document.createElement("img")
     deleteButton.setAttribute("class", "preset-delete")
-    deleteButton.setAttribute("src", "../storage/assets/none.png")
+    deleteButton.setAttribute("src", "./storage/assets/none.png")
 
     presetElementContainer.appendChild(presetImg)
     presetElementContainer.appendChild(deleteButton)
