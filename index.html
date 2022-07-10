@@ -3,22 +3,23 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" href="./images/icon.png" type="image/x-icon">
-  
   <title>Minicrafter Maker</title>
+  
+  <link rel="icon" href="./images/icon.png" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta content="MinicrafterMaker" property="og:title">
   <meta content="2D Character Creator" property="og:description">
   <meta content="MinicrafterMaker" property="og:site_name">
   <meta content='https://hatchibombotar.com/minicrafter-maker/images/icon.png' property='og:image'>
   <meta property="og:url" content="https://hatchibombotar.com/minicrafter-maker" />
+  <meta name="description" content="A character creator where you your custom mini person with almost infinite possibilities.">
 
   <link rel="stylesheet" href="./css/main.css">
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.5/jscolor.js"></script>
-  <script src=./js/contributors.js></script>
-  <script src=./js/canvasOperations.js></script>
-  <script src=./js/createCharacter.js></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.8/jscolor.js"></script>
+  <script defer src=./js/contributors.js></script>
+
+  <script defer src=./js/index.js type="module"></script>
 </head>
 
 <body>
@@ -30,7 +31,7 @@
     </a>
   </div>
 
-  <div class="main-panel">
+  <div class="main-panels">
     <div class="customise-panel">
       <h2>Settings</h2>
       <div class="customise-options">
@@ -38,42 +39,43 @@
         <div class="parts" id="parts">
           <p id="hint-text">Press an icon to change how the character looks!</p>
         </div>
-        <div class="colours" id="colours">
+        <div class="colour-container" id="colour-container">
         </div>
       </div>
     </div>
 
     <div class="preview-panel">
-      <h2>Preview </h2>
+      <h2>Preview</h2>
 
-      <img id="loading" src="./images/loading.gif" alt="loading...">
-      <canvas id="canvas" alt="Empty Minicrafter Image" height="32" width="32"></canvas>
+      <div class="canvas-container">
+        <img id="loading" src="./images/loading.gif" alt="loading...">
+        <canvas id="canvas" alt="Empty Minicrafter Image" height="32" width="32"></canvas>
+        <div class="share-buttons">
+          <img src="images/icons/save.svg" height="20px" alt="Save your Minicrafter as a preset" id="button-save" title="Save">
+          <img src="images/icons/share.svg" height="20px" alt="Share your Minicrafter." id="button-share" title="Share">
+        </div>
+      </div>
 
-      <h4 class="reset_padding_margin">Presets</h4>
-      <div class="preset_container" id="preset_container"></div>
+      <h3>Presets</h3>
+      <div class="presets-container" id="presets-container"></div>
 
       <div class="preset-buttons-container">
-        <button onclick="togglePresetExtras()">EDIT</button>
-        <button onclick="createPreset()">NEW</button>
-        <button onclick="shareLink()">SHARE</button>
-        <button class="hideable invisible" onclick="resetPresets()">RESET</button>
-        <button class="hideable invisible" onclick="deleteLastPreset()">DELETE LAST</button>
+        <button id="presets-edit">
+          <img src="images/icons/pencil-alt.svg" height="20px" alt="Delete All">
+        </button>
+        <button id="presets-reset" class="hideable invisible"> 
+          <img src="images/icons/trash.svg" height="20px" alt="Delete All">
+        </button>
       </div>
     </div>
   </div>
 
-  <div class="footnote">
-    <a>Minicrafter Maker created by <a href="https://github.com/Hatchibombotar">hatchibombotar#3794</a></a>
-    <br>
-
-    <a>Original minicrafter design by <a href="https://www.planetminecraft.com/member/chesto_">Chesto#5842</a></a>
-    <br>
-
+  <footer>
+    <p>Minicrafter Maker created by <a href="https://github.com/Hatchibombotar">hatchibombotar#3794</a></p>
+    <p>Original minicrafter design by <a href="https://www.planetminecraft.com/member/chesto_">Chesto#5842</a></p>
     <div id="contributor-section"></div>
-    <a>This website is not affiliated with Mojang Studios</a>
-  </div>
-
-  <script src=./js/index.js></script>
+    <p>This website is not affiliated with Mojang Studios</p>
+  </footer>
 </body>
 
 </html>

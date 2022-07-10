@@ -1,4 +1,4 @@
-class Canvas {
+export class Canvas {
     constructor(canvas) {
         if (canvas) {
             this.canvas = canvas
@@ -8,12 +8,22 @@ class Canvas {
         this.ctx = this.canvas.getContext("2d")
     }
 
+    /**
+     * Draw an image on canvas.
+     *
+     * @param image The image to be overlayed, can be a promise.
+    */
     async drawImage(image) {
         await image.decode()
         await this.ctx.drawImage(image, 0, 0)
         return
     }
-    
+
+    /**
+     * Overlay another canvas on top of me 
+     *
+     * @param {Canvas} canvasLayer The image to be overlayed, may be a promise.
+    */
     async layer(canvasLayer) {
         const c1ImgData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height)
         const c2ImgData = canvasLayer.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height)
@@ -30,6 +40,11 @@ class Canvas {
         return
     }
 
+    /**
+     * Colourfies this layer
+     *
+     * @param {Array} colour The image to be overlayed, may be a promise.
+    */
     async colourfy(colour) {
         const imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
         const data = imageData.data
@@ -42,5 +57,30 @@ class Canvas {
         }
         this.ctx.putImageData(imageData, 0, 0)
         return
+    }
+
+    /**
+     * Clears this canvas, leaving a solid colour
+    */
+    async clear() {
+        this.ctx.fillStyle = "#c0cbdc"
+        this.ctx.fillRect(0, 0, canvas.width, canvas.height)
+        return
+    }
+
+    /**
+     * Gets the width property of this canvas.
+     * @returns {int} width
+    */
+    get width() {
+        return this.canvas.width
+    }
+
+    /**
+     * Gets the height property of this canvas.
+     * @returns {int} height
+    */
+    get height() {
+        return this.canvas.height
     }
 }

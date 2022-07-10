@@ -1,195 +1,219 @@
+import { Canvas } from "./canvasOperations.js";
+import { drawMinicrafter, initCache, modifyLayer } from "./drawMinicrafter.js";
+import { elementsToPreset, presetToElements } from "./utils.js";
+
 let elementsJSON, defaultPresets;
 let presets = JSON.parse(localStorage.getItem("userPresets")) ?? []
 let canvas = new Canvas(document.getElementById("canvas"))
 jscolor.presets.default.format = "rgb"
 
 async function init() {
+    // set the canvas to be a placeholder to reduce visual loading speed
+    const placeholder = new Image()
+    placeholder.src = "./storage/assets/presets/steve.png"
+    canvas.drawImage(placeholder)
+
     let response = await fetch("./storage/data/elements.json")
     elementsJSON = await response.json()
 
-    createSelectionPane()
+    // Creates the customise panel
+    for (const layer of elementsJSON) {
+        const categoryIcon = document.createElement("img")
+        categoryIcon.setAttribute("class", "category-image")
+        categoryIcon.setAttribute("src", `./storage/assets/categories/${layer.id}.png`)
+        categoryIcon.setAttribute("id", `category-${layer.id}`)
+        categoryIcon.setAttribute("alt", layer.id)
+        categoryIcon.setAttribute("width", 40)
+        categoryIcon.setAttribute("height", 40)
+        categoryIcon.onclick = () => {
+            document.getElementById("hint-text").classList.add("invisible")
 
-    await createDefaultPresets()
-    createPresetImage()
+            document.querySelectorAll(`.category-image`).forEach(el => el.classList.remove("element-selected"))
 
-    canvas.ctx.fillStyle = "#c0cbdc"
-    canvas.ctx.fillRect(0, 0, canvas.canvas.width, canvas.canvas.height)
-    drawImage()
+            document.querySelector(`#category-${layer.id}`).classList.add("element-selected")
+
+            document.querySelectorAll(".part").forEach(el => el.classList.add("invisible"))
+            document.querySelectorAll(".colour").forEach(el => el.classList.add("invisible"))
+
+            document.querySelectorAll(`.part-${layer.id}`).forEach(el => el.classList.remove("invisible"))
+            document.querySelectorAll(`.colour-${layer.id}`).forEach(el => el.classList.remove("invisible"))
+        }
+        document.getElementById("categories").appendChild(categoryIcon)
+        for (const part of layer.elements) {
+            if (layer.showElements === false) continue
+            const partIcon = document.createElement("img")
+            partIcon.setAttribute("class", `invisible part-${layer.id} part part-name-${part}`)
+            partIcon.setAttribute("src", `./storage/assets/preview/${layer.id}/${part}.png`)
+            partIcon.setAttribute("width", 50)
+            partIcon.setAttribute("height", 50)
+            partIcon.setAttribute("alt", part)
+            partIcon.onclick = async () => {
+                if (layer.limitSelections || layer.limitSelections == undefined) {
+                    // single selections
+                    if (!partIcon.classList.contains("element-selected")) {
+                        // select
+                        layer.currentlySelected = [part]
+                        document.querySelectorAll(`.part-${layer.id}`).forEach(el => el.classList.remove("element-selected"))
+                        partIcon.classList.add("element-selected")
+                    } else {
+                        // deselect
+                        partIcon.classList.remove("element-selected")
+                        layer.currentlySelected = [layer.elements[0]]
+                    }
+                } else {
+                    // multiple selections
+                    if (!partIcon.classList.contains("element-selected")) {
+                        // select
+                        layer.currentlySelected.push(part)
+                        partIcon.classList.add("element-selected")
+                        if (part == "none") {
+                            document.querySelectorAll(`.part-${layer.id}`).forEach(el => el.classList.remove("element-selected"))
+                            layer.currentlySelected = ["none"]
+                        }
+                    } else {
+                        // deselect
+                        layer.currentlySelected = layer.currentlySelected.filter(selectedElement => selectedElement != part)
+                        partIcon.classList.remove("element-selected")
+                    }
+                }
+                await modifyLayer(layer)
+                drawMinicrafter(canvas)
+            }
+            document.getElementById("parts").appendChild(partIcon)
+        }
+
+        const customColour = document.createElement('button')
+        customColour.setAttribute("class", `colour colour-custom invisible colour-${layer.id}`)
+        customColour.setAttribute("aria-label", "Custom Colour")
+
+        new JSColor(customColour, {
+            onInput: async function () {
+                layer.colour = [this.channel("r"), this.channel("g"), this.channel("b")]
+                await modifyLayer(layer)
+                drawMinicrafter(canvas)
+            }
+        })
+
+        if (layer.defaultColours === undefined) continue
+        for (const colourIndex in layer.defaultColours) {
+            const colour = layer.defaultColours[colourIndex]
+            const colourDiv = document.createElement("div")
+            colourDiv.setAttribute("class", `colour invisible colour-${layer.id}`)
+            colourDiv.onclick = async () => {
+                layer.colour = colour
+                await modifyLayer(layer)
+                drawMinicrafter(canvas)
+            }
+            colourDiv.style["background-color"] = `rgb(${colour})`
+            document.getElementById("colour-container").appendChild(colourDiv)
+        }
+
+        document.getElementById("colour-container").appendChild(customColour)
+    }
+
+    // built-in presets
+    let defaultPresetsResponse = await fetch("./storage/data/default_presets.json")
+    defaultPresets = await defaultPresetsResponse.json()
+    for (const preset of defaultPresets) {
+        createPresetElement(preset, true)
+    }
+
+    // custom presets
+    for (const preset of presets) {
+        createPresetElement(preset)
+    }
+    await initCache(elementsJSON)
+    drawMinicrafter(canvas)
+    selectElements()
 }
 
 init()
 
-function createSelectionPane() {
-    for (element of elementsJSON) {
-        const icon = document.createElement("img")
-        icon.setAttribute("class", "category-image")
-        icon.setAttribute("src", `./storage/assets/categories/${element.id}.png`)
-        icon.setAttribute("id", element.id + "Img")
-        icon.setAttribute("alt", element.id)
-        icon.setAttribute("onclick", `toggleSelectedCategory('${element.id}')`)
-        document.getElementById("categories").appendChild(icon)
-        for (part of element.elements) {
-            if (element.showElements === false) continue
-            const partIcon = document.createElement("img")
-            partIcon.setAttribute("class", "category-image invisible")
-            partIcon.setAttribute("src", `./storage/assets/preview/${element.id}/${part}.png`)
-            partIcon.setAttribute("id", `Element: ${element.id}, Part: ${part}`)
-            partIcon.setAttribute("alt", part)
-            partIcon.setAttribute("onclick", `selectElement('${element.id}','${part}')`)
-            document.getElementById("parts").appendChild(partIcon)
-        }
-    }
 
-    // Creates the colour selection buttons
+let presetsDeletable = false
+function createPresetElement(preset, defaultPreset = false) {
+    const presetElementContainer = document.createElement("div")
+    presetElementContainer.setAttribute("class", "preset-div")
+    if (presetsDeletable) presetElementContainer.classList.add("preset-deletable")
 
-    for (const element of elementsJSON) {
-        const customColour = document.createElement('button')
-        customColour.setAttribute("id", `customColour, Category: ${element.id}`)
-        customColour.setAttribute("class", "colour")
-        customColour.setAttribute("aria-label", "Custom Colour")
-        customColour.style["display"] = `none`
+    const presetImg = document.createElement("img")
+    presetImg.setAttribute("class", "preset-image")
+    presetImg.setAttribute("src", preset.image)
+    presetImg.setAttribute("alt", `Custom Preset`)
+    presetImg.onclick = async (event) => {
+        if (!defaultPreset && event.target.parentNode.classList.contains("preset-deletable")) {
+            presets.splice(presets.findIndex(x => x == preset), 1)
+            localStorage.setItem("userPresets", JSON.stringify(presets))
 
-        new JSColor(customColour, { onChange: `selectCustomColour('${element.id}')` })
-        
-        if (element.defaultColours === undefined) continue
-        for (colourIndex in element.defaultColours) {
-            const colour = element.defaultColours[colourIndex]
-            const colourDiv = document.createElement("div")
-            colourDiv.setAttribute("class", "colour")
-            colourDiv.setAttribute("id", `Category: ${element.id}, Index: ${colourIndex}`)
-            colourDiv.setAttribute("onClick", `setPartColor('${element.id}', ${JSON.stringify(colour)})`)
-            colourDiv.style["background-color"] = `rgb(${colour})`
-            colourDiv.style["display"] = `none`
-            document.getElementById("colours").appendChild(colourDiv)
-        }
-
-        document.getElementById("colours").appendChild(customColour)
-    }
-}
-
-function selectCustomColour(category) {
-    const currentColourChannels = document.getElementById(`customColour, Category: ${category}`).jscolor.channels
-    setPartColor(category, [currentColourChannels.r, currentColourChannels.g, currentColourChannels.b])
-}
-
-function setPartColor(category, colour) {
-    categoryIndex = elementsJSON.findIndex(x => x.id == category)
-    elementsJSON[categoryIndex].colour = colour
-    drawImage()
-}
-
-function toggleSelectedCategory(selectedCategory) {
-    for (element of elementsJSON) {
-        for (part of element.elements) {
-            if (element.showElements === false) continue
-            const thing = document.getElementById(`Element: ${element.id}, Part: ${part}`)
-            if (element.id != selectedCategory) {
-                thing.classList.add("invisible")
-            } else {
-                thing.classList.remove("invisible")
+            document.querySelectorAll('.preset-div.preset-custom').forEach(e => e.remove())
+            for (const i of presets) {
+                createPresetElement(i)
             }
-        }
-        for (colourIndex in element.defaultColours) {
-            if (element.defaultColours === undefined) continue
-            const thing = document.getElementById(`Category: ${element.id}, Index: ${colourIndex}`)
-            if (element.id != selectedCategory) {
-                thing.style.display = "none"
-            } else {
-                thing.style.display = ""
-            }
-        }
-        if (element.id != selectedCategory) {
-            document.getElementById(`customColour, Category: ${element.id}`).style.display = "none"
         } else {
-            document.getElementById(`customColour, Category: ${element.id}`).style.display = ""
+            presetToElements(preset, elementsJSON)
+            await initCache(elementsJSON, true)
+            drawMinicrafter(canvas)
+            selectElements()
         }
     }
-    document.getElementById("hint-text").classList.add("invisible")
+
+    if (!defaultPreset) {
+        presetImg.classList.add("preset-custom")
+        presetElementContainer.classList.add("preset-custom")
+    }
+
+    const deleteButton = document.createElement("img")
+    deleteButton.setAttribute("class", "preset-delete")
+    deleteButton.setAttribute("src", "../storage/assets/none.png")
+
+    presetElementContainer.appendChild(presetImg)
+    presetElementContainer.appendChild(deleteButton)
+    document.getElementById("presets-container").appendChild(presetElementContainer)
 }
 
-function selectElement(category, element) {
-    elementIndex = elementsJSON.findIndex(x => x.id == category)
-    elementsJSON[elementIndex].currentlySelected = element
-    drawImage()
-}
-
-// Everything to do with the preset system
-
-async function createDefaultPresets() {
-    let response = await fetch("./storage/data/default_presets.json")
-    defaultPresets = await response.json()
-
-    for (i in defaultPresets) {
-        const preset = document.createElement("img")
-        preset.setAttribute("class", "presetimage")
-        preset.setAttribute("src", defaultPresets[i].image)
-        preset.setAttribute("onClick", `setDefaultPreset('${i}')`)
-        preset.setAttribute("alt", `Custom Preset Image ${defaultPresets[i].name}`)
-
-        document.getElementById("preset_container").appendChild(preset)
+function selectElements() {
+    document.querySelectorAll(`.part`).forEach(x => x.classList.remove("element-selected"))
+    for (const layer of elementsJSON) {
+        if (layer.showElements == false && layer.showElements != undefined) continue
+        for (const part of layer.currentlySelected) {
+            if (part == "none" && !layer.limitSelections) continue
+            const element = document.querySelector(`.part-${layer.id}.part-name-${part}`)
+            element.classList.add("element-selected")
+        }
     }
 }
 
-// creates the custom presets
-function createPresetImage() {
-    for (i in presets) {
-        createPresetElement(presets[i], i)
-    }
-}
-
-function createPresetElement(preset, presetID) {
-    const presetElement = document.createElement("img")
-    presetElement.setAttribute("class", "presetimage customPreset")
-    presetElement.setAttribute("src", preset.image)
-    presetElement.setAttribute("onClick", `setCustomPreset('${presetID}')`)
-    presetElement.setAttribute("alt", `Custom Preview Image ${presetID}`)
-    document.getElementById("preset_container").appendChild(presetElement)
-}
-
-function setDefaultPreset(number) {
-    setAsPreset(defaultPresets[number])
-}
-
-function setCustomPreset(number) {
-    setAsPreset(presets[number])
-}
-
-function setAsPreset(preset) {
-    for (element of elementsJSON) {
-        element.colour = preset.colours[element.id]
-        element.currentlySelected = preset.elements[element.id]
-    }
-    drawImage()
-}
-
-function resetPresets() {
+document.getElementById("presets-reset").onclick = function () {
     if (confirm("Are you sure you want to delete all your custom presets?")) {
+        presets = []
         localStorage.setItem("userPresets", null)
-        document.querySelectorAll('.customPreset').forEach(e => e.remove())
+        document.querySelectorAll('.preset-div.preset-custom').forEach(e => e.remove())
     }
 }
 
-function deleteLastPreset() {
-    presets.pop()
-    localStorage.setItem("userPresets", JSON.stringify(presets))
-    document.querySelectorAll('.customPreset').forEach(e => e.remove())
-    createPresetImage()
-}
-
-function togglePresetExtras() {
-    for (i of document.getElementsByClassName('hideable')) {
-        if (!i.classList.contains("invisible")) {
-            i.classList.add("invisible")
-        } else {
-            i.classList.remove("invisible")
-        }
+document.getElementById("presets-edit").onclick = function () {
+    presetsDeletable = !presetsDeletable
+    for (const i of document.getElementsByClassName('hideable')) {
+        if (presetsDeletable) i.classList.remove("invisible")
+        else i.classList.add("invisible")
+    }
+    for (const i of document.querySelectorAll('.preset-div.preset-custom')) {
+        if (presetsDeletable) i.classList.add("preset-deletable")
+        else i.classList.remove("preset-deletable")
     }
 }
 
-function shareLink() {
-    const shareLink = {}
-    for (element of elementsJSON) {
-        shareLink[element.id] = [element.currentlySelected, element.colour]
-    }
+document.getElementById("button-share").onclick = function () {
+    const shareLink = elementsToPreset(elementsJSON)
     window.location.href = `./share.html?preset=${encodeURIComponent(JSON.stringify(shareLink))}`
+}
+
+document.getElementById("button-save").onclick = function () {
+    presets.push(elementsToPreset(elementsJSON, canvas))
+    localStorage.setItem("userPresets", JSON.stringify(presets))
+    createPresetElement(presets[presets.length - 1])
+
+    if (presetsDeletable) {
+        document.querySelectorAll('.preset-div.preset-custom').forEach(e => e.classList.add("preset-deletable"))
+    }
 }

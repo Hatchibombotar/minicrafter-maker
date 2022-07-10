@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="icon" href="./images/icon.png" type="image/x-icon">
+
   <title>MinicrafterMaker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta content="Someone has shared you their Minicrafter!" property="og:title">
@@ -11,12 +12,12 @@
   <meta content="MinicrafterMaker" property="og:site_name">
   <meta content='https://hatchibombotar.com/minicrafter-maker/images/icon.png' property='og:image'>
   <meta property="og:url" content="https://hatchibombotar.com/minicrafter-maker" />
-  <link rel="stylesheet" href="./css/main.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/3.3.0/caman.full.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.5/jscolor.js"></script>
 
-  <script src=./js/canvasOperations.js></script>
-  <script src=./js/createCharacter.js></script>
+  <link rel="stylesheet" href="./css/main.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.8/jscolor.js"></script>
+  
+  <script defer src=./js/share.js type="module"></script>
 </head>
 
 <body>
@@ -28,21 +29,25 @@
     </a>
   </div>
   
-  <div class="main-panel">
+  <div class="main-panels">
     <div class="share-panel">
       <h2>You got Mail!</h2>
-      <p class="descriptionShareText">Someone has shared you their MiniCrafter!</p>
-      <div class="centeredImage">
+      <p>Someone has shared you their MiniCrafter!</p>
+      <div class="canvas-container">
         <img id="loading" src="./images/loading.gif" alt="loading...">
         <canvas id="canvas" alt="Empty Minicrafter Image" height="32" width="32"></canvas>
-        <div class="sharedPreset">
-          <button class="preset_buttons" onclick="createPreset()">SAVE</button><a href="./index.html"><button
-              class="preset_buttons">CANCEL</button></a><br>
-          <textarea id="url_area"></textarea>
-          <script>document.getElementById("url_area").innerHTML = document.location.href</script>
-        </div>
       </div>
-      <script src=./js/share_screen.js></script>
+
+      <div class="preset-buttons-container">
+        <button id="save-preset">SAVE</button>
+        <a href="./index.html">
+          <button>CANCEL</button>
+        </a>
+      </div>
+      
+      <textarea class="share-url"></textarea>
+    </div>
+  </div>
 </body>
 
 </html>

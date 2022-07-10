@@ -11,7 +11,7 @@ async function createContributorImages() {
         userElement.setAttribute("href", user.html_url)
 
         const userIcon = document.createElement("img")
-        userIcon.setAttribute("src", user.avatar_url)
+        userIcon.setAttribute("src", user.avatar_url + "&s=60")
         userIcon.setAttribute("alt", user.login)
         userElement.appendChild(userIcon)
 

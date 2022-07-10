@@ -1,144 +1,86 @@
 @font-face {
   font-family: 'minecraftfive';
-  src: url('../fonts/minecraft-five-825cb-webfont.woff2') format('woff2'), url('../fonts/minecraft-five-825cb-webfont.woff') format('woff');
+  src: local('sans-serif'), url('../fonts/minecraft-five-825cb-webfont.woff2') format('woff2'), url('../fonts/minecraft-five-825cb-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'minecraftten';
-  src: url('../fonts/minecraft-ten-b8f2d-webfont.woff2') format('woff2'), url('../fonts/minecraft-ten-b8f2d-webfont.woff') format('woff');
+  src: local('sans-serif'), url('../fonts/minecraft-ten-b8f2d-webfont.woff2') format('woff2'), url('../fonts/minecraft-ten-b8f2d-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+  /* outline: greenyellow 2px solid; */
+}
+
+html {
+  background-color: #d29196;
 }
 
 body {
   font-family: minecraftfive, Arial, Helvetica, sans-serif;
   background-image: linear-gradient(#005592, #d29196);
-  
-  background-color: #d29196;
+  margin: 0;
+  padding: 8px;
 }
 
-#canvas {
-  width: 320px;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: -webkit-crisp-edges;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-}
-
-.main-panel > div {
-  margin: 8px;
-  background-color: rgb(134, 134, 134);
-  height: auto;
-  width: auto;
-}
-.customise-panel {
-  padding-left: 7px;
-  padding-right: 7px;
-}
-
-.minecraft-button {
-  color: white;
-  box-shadow: 0 -4px rgb(21 108 0 / 50%) inset, 0 4px rgb(100 253 31 / 99%) inset, -4px 0 rgb(100 253 31 / 50%) inset, 4px 0 rgb(21 108 0 / 50%) inset;
-  background: #34aa2f;
-  cursor: pointer;
-}
-
-.main-panel > div h2{
-  margin-top: 1px;
-  margin-bottom: 0px;
+h1 {
+  text-shadow: 0 3px cornflowerblue;
+  font-weight: 100;
+  font-size: 35px;
+  font-family: minecraftten, Arial, Helvetica, sans-serif;
   text-align: center;
-}
+  margin: 0;
 
-body h1 {
   text-align: center;
   padding-bottom: 0;
   margin-bottom: 5px;
+}
+
+.social-buttons {
+  text-align: center;
 }
 
 .social-buttons img {
   border-radius: 50%;
   width: 30px;
   height: 30px;
-  padding: 1px;
-  padding-left: 5px;
-  padding-right: 5px;
+  margin: 5px;
   cursor: pointer;
 }
 
-.social-buttons {
-  margin: 0 auto;
+.main-panels {
+  display: flex;
   justify-content: center;
-  display: flex
 }
 
-.preset_container {
-  padding-left: 10px;
-  padding-bottom: 10px;
-  padding-top: 0px;
-  margin-top: 0px;
-}
+.main-panels > div {
+  margin: 8px;
+  height: auto;
+  width: auto;
 
-.preset_container img {
-  cursor: pointer;
-}
-
-.presetimage {
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  padding: 1px;
-}
-
-#progress {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-}
-
-.preset_container {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 5px;
-}
-
-.reset_padding_margin {
-  margin-top: 0px;
-  margin-bottom: 8px;
-  padding-left: 5px;
-}
-
-.preset-buttons-container button {
-  box-shadow: 0 -4px rgb(108 108 108 / 50%) inset, 0 4px rgb(253 253 253 / 99%) inset, -4px 0 rgb(100 100 100 / 50%) inset, 4px 0 rgb(21 21 21 / 50%) inset;
-  background: #acacac;
-  height: 30px;
-  margin-left: 5px;
-  margin-bottom: 10px;
-  font-size: 10px;
-  font-weight: bolder;
-}
-
-.invisible {
-  display: none;
-}
-
-.descriptionShareText {
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.centeredImage, .sharedPreset {
-  text-align: center;
-}
-
-.main-panel>div {
   background-image: linear-gradient(#94979f, #c4b9b7);
   border: 5px solid #64606e;
   box-shadow: inset 0 -4px 50px 0px #968f8f, inset 0 -6px 0 0px #868086;
+}
+
+.main-panels > div h2 {
+  margin-top: 1px;
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+/* customise-panel */
+
+.customise-panel {
+  padding-left: 7px;
+  padding-right: 7px;
 }
 
 .categories {
@@ -153,13 +95,12 @@ body h1 {
 .category-image {
   height: 50px;
   cursor: pointer;
-  user-select: none;
   -webkit-user-select: none;
+  user-select: none;
 }
 
-.main-panel {
-  display: flex;
-  justify-content: center;
+.element-selected {
+  outline: black solid 3px;
 }
 
 .parts {
@@ -170,7 +111,10 @@ body h1 {
 }
 
 .parts img {
-  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 #hint-text {
@@ -184,7 +128,7 @@ body h1 {
   height: 40px;
 }
 
-.colours {
+.colour-container {
   float: left;
   display: grid;
   grid-template-columns: min-content min-content min-content min-content;
@@ -200,20 +144,120 @@ body h1 {
   border-radius: 0;
 }
 
-.title {
-  text-shadow: 0 3px cornflowerblue;
-  font-weight: 100;
-  font-size: 35px;
-  font-family: minecraftten, Arial, Helvetica, sans-serif;
-  text-align: center;
+/* preview-panel */
+
+.preview-panel h3 {
+  font-size: unset;
+  margin-top: 0px;
+  margin-bottom: 8px;
+  padding-left: 5px;
+}
+
+.canvas-container {
   margin: 0;
+  padding: 0;
+  
+  position: relative;
 }
 
-.footnote {
+.canvas-container canvas {
+  width: 320px;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: pixelated;
+}
+
+.canvas-container img#loading {
+  position: absolute;
+}
+
+.share-buttons {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  cursor: pointer;
+}
+
+.share-buttons img {
+  opacity: 0.3;
+}
+
+.share-buttons img:hover {
+  opacity: 1;
+}
+
+.presets-container {
+  margin: 5px;
+}
+
+.presets-container img {
+  cursor: pointer;
+}
+
+.preset-div {
+  padding: 1px;
+}
+
+.preset-image {
+  width: 30px;
+  height: 30px;
+}
+
+.preset-buttons-container {
+  padding-left: 5px;
+}
+
+.preset-buttons-container button {
+  box-shadow: 0 -3px rgb(108 108 108 / 50%) inset, 0 3px rgb(253 253 253 / 99%) inset, -3px 0 rgb(100 100 100 / 50%) inset, 3px 0 rgb(21 21 21 / 50%) inset;
+  background: #acacac;
+  height: 30px;
+  margin-bottom: 10px;
+  font-size: 10px;
+  font-weight: bolder;
+  font-family: minecraftfive, Arial, Helvetica, sans-serif;
+  padding: 0px 4px;
+  cursor: pointer;
+  border: none;
+  aspect-ratio: 1;
+}
+
+.preset-buttons-container button:hover {
+  background: #919191;
+}
+
+.preset-div {
+  display: inline-block;
+  position: relative;
+  aspect-ratio: 1;
+  margin: 1px;
+}
+
+.preset-delete {
+  width: 20px;
+  position: absolute;
+  top: -8px;
+  right: -10px;
+
+  z-index: 10;
+  display: none;
+}
+
+.preset-deletable .preset-delete {
+  display: block;
+}
+
+/* share-panel */
+.share-panel {
+  text-align: center;
+  padding: 0 10px 10px 10px;
+}
+
+
+.invisible {
+  display: none !important;
+}
+
+footer {
   margin-left: 10px;
-}
-
-.footnote a {
   font-size: 10px;
 }
 
@@ -225,7 +269,11 @@ body h1 {
 }
 
 @media screen and (max-width: 650px) {
-  .main-panel {
+  body {
+    
+    text-align: center;
+  }
+  .main-panels {
     display: block;
   }
   .categories {
@@ -233,8 +281,9 @@ body h1 {
   }
   .category-image {
     height: 55px !important;
+    width: 55px !important;
   }
-  .colours {
+  .colour-container {
     float: none;
     justify-content: center;
     margin-bottom: 10px;
@@ -246,7 +295,9 @@ body h1 {
     width: unset;
   }
   .preview-panel {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .parts {
     display: block;
@@ -260,15 +311,15 @@ body h1 {
     justify-content: center;
     flex-direction: column;
   }
-  #canvas {
-    width: 100%;
-    max-width: 320px;
-  }
-  .footnote {
-    text-align: center;
+  footer {
+    font-size: 12px;
+    margin: 0;
   }
 }
 
-#loading {
-  position: absolute;
-}
+/* .minecraft-button {
+  color: white;
+  box-shadow: 0 -4px rgb(21 108 0 / 50%) inset, 0 4px rgb(100 253 31 / 99%) inset, -4px 0 rgb(100 253 31 / 50%) inset, 4px 0 rgb(21 108 0 / 50%) inset;
+  background: #34aa2f;
+  cursor: pointer;
+} */
