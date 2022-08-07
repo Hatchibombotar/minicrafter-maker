@@ -1,5 +1,5 @@
 # Minicrafter Maker
-A 2D character creator inspired by the one in Minecraft Bedrock.
+A 2D character creator inspired by the one in Minecraft: Bedrock.
 
 View Website: [Minicrafter Maker](https://hatchibombotar.com/minicrafter-maker/)
 
