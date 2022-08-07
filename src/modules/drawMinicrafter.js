@@ -1,4 +1,4 @@
-import {Canvas} from "./canvasOperations.js";
+import {Canvas} from "./Canvas.js";
 
 const layerCache = new Map()
 
@@ -36,8 +36,7 @@ export async function drawMinicrafter(canvas) {
  * @param layer The layer being modified, identified by it's `id` property
  * @param {boolean} loadingGIF If the loading gif should display, default `true`
 */
-export async function modifyLayer(layer, loadingGIF = true) {
-    if (loadingGIF) document.getElementById("loading").style.display = ""
+export async function modifyLayer(layer) {
 
     const processingCanvas = new Canvas()
     processingCanvas.canvas.width = 32
@@ -48,7 +47,7 @@ export async function modifyLayer(layer, loadingGIF = true) {
             const part = layer.parts[key]
             if (part.elements.indexOf(selectedElement) != -1) {
                 const image = new Image()
-                image.src = `./storage/assets/elements/${layer.id}/${key}/${selectedElement}.png`
+                image.src = `./elements/${layer.id}/${key}/${selectedElement}.png`
                 if (part.colour) {
                     await processingCanvas.drawImage(image)
                     await processingCanvas.colourfy(layer.colour)
@@ -59,7 +58,6 @@ export async function modifyLayer(layer, loadingGIF = true) {
         }
     }
     layerCache.set(layer.id, processingCanvas.ctx.getImageData(0, 0, 32, 32))
-    document.getElementById("loading").style.display = "none"
 }
 
 /**
@@ -67,8 +65,8 @@ export async function modifyLayer(layer, loadingGIF = true) {
  *
  * @param {Array} elementsJSON The elementsJSON array
 */
-export async function initCache(elementsJSON, loadingGIF = false) {
+export async function initCache(elementsJSON) {
     for (const layer of elementsJSON) {
-        await modifyLayer(layer, loadingGIF)
+        await modifyLayer(layer)
     }
 }

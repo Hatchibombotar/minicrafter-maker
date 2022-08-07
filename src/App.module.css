@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'minecraftfive';
-  src: local('sans-serif'), url('../fonts/minecraft-five-825cb-webfont.woff2') format('woff2'), url('../fonts/minecraft-five-825cb-webfont.woff') format('woff');
+  src: local('sans-serif'), url('./assets/fonts/minecraft-five-825cb-webfont.woff2') format('woff2'), url('./assets/fonts/minecraft-five-825cb-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: 'minecraftten';
-  src: local('sans-serif'), url('../fonts/minecraft-ten-b8f2d-webfont.woff2') format('woff2'), url('../fonts/minecraft-ten-b8f2d-webfont.woff') format('woff');
+  src: local('sans-serif'), url('./assets/fonts/minecraft-ten-b8f2d-webfont.woff2') format('woff2'), url('./assets/fonts/minecraft-ten-b8f2d-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -16,21 +16,17 @@
 
 * {
   box-sizing: border-box;
-  /* outline: greenyellow 2px solid; */
 }
 
-html {
+.App {
   background-color: #d29196;
-}
-
-body {
   font-family: minecraftfive, Arial, Helvetica, sans-serif;
   background-image: linear-gradient(#005592, #d29196);
   margin: 0;
   padding: 8px;
 }
 
-h1 {
+.title {
   text-shadow: 0 3px cornflowerblue;
   font-weight: 100;
   font-size: 35px;
@@ -43,11 +39,11 @@ h1 {
   margin-bottom: 5px;
 }
 
-.social-buttons {
+.socialButtons {
   text-align: center;
 }
 
-.social-buttons img {
+.socialButtons img {
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -55,12 +51,12 @@ h1 {
   cursor: pointer;
 }
 
-.main-panels {
+.mainPanel {
   display: flex;
   justify-content: center;
 }
 
-.main-panels > div {
+.mainPanel>div {
   margin: 8px;
   height: auto;
   width: auto;
@@ -70,15 +66,15 @@ h1 {
   box-shadow: inset 0 -4px 50px 0px #968f8f, inset 0 -6px 0 0px #868086;
 }
 
-.main-panels > div h2 {
+.mainPanel>div>h2 {
   margin-top: 1px;
   margin-bottom: 0px;
   text-align: center;
 }
 
-/* customise-panel */
+/* customise panel */
 
-.customise-panel {
+.customisePanel {
   padding-left: 7px;
   padding-right: 7px;
 }
@@ -92,14 +88,15 @@ h1 {
   float: left;
 }
 
-.category-image {
+.categoryImage {
   height: 50px;
   cursor: pointer;
   -webkit-user-select: none;
   user-select: none;
 }
 
-.element-selected {
+.categorySelected,
+.elementSelected {
   outline: black solid 3px;
 }
 
@@ -117,18 +114,18 @@ h1 {
   user-select: none;
 }
 
-#hint-text {
+.hint {
   width: 160px;
   margin-right: 10px;
   margin-top: 5px;
   padding: 0;
 }
 
-.categories .category-image {
+.categories .categoryImage {
   height: 40px;
 }
 
-.colour-container {
+.colourContainer {
   float: left;
   display: grid;
   grid-template-columns: min-content min-content min-content min-content;
@@ -137,123 +134,131 @@ h1 {
 .colour {
   width: 35px;
   height: 35px;
-  background-color: rgb(0, 0, 0);
   margin: 4px;
   cursor: pointer;
   border: none;
   border-radius: 0;
 }
 
-/* preview-panel */
-
-.preview-panel h3 {
-  font-size: unset;
-  margin-top: 0px;
-  margin-bottom: 8px;
-  padding-left: 5px;
+input.colour {
+  padding: 0;
+  outline: 0;
+  border: 0;
+  background: none;
 }
 
-.canvas-container {
+.presetButtons {
+  padding-left: 4px;
+}
+
+.presetButtons button {
+  box-shadow: 0 -3px rgb(108 108 108 / 50%) inset, 0 3px rgb(253 253 253 / 99%) inset, -3px 0 rgb(100 100 100 / 50%) inset, 3px 0 rgb(21 21 21 / 50%) inset;
+  background: #acacac;
+  height: 30px;
+  font-size: 10px;
+  font-weight: bolder;
+  font-family: minecraftfive, Arial, Helvetica, sans-serif;
+  padding: 0px 4px;
+  margin: 0px 2px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border: none;
+  aspect-ratio: 1;
+  
+}
+
+.presetButtons button:hover {
+  background: #919191;
+}
+
+.canvasContainer {
   margin: 0;
   padding: 0;
-  
+
   position: relative;
 }
 
-.canvas-container canvas {
+.canvasContainer canvas {
   width: 320px;
   image-rendering: -moz-crisp-edges;
   image-rendering: pixelated;
 }
 
-.canvas-container img#loading {
+.canvasContainer img#loading {
   position: absolute;
 }
 
-.share-buttons {
+.canvasContainer > div {
   position: absolute;
   bottom: 0px;
   right: 0px;
   cursor: pointer;
 }
 
-.share-buttons img {
+.canvasContainer > div > img {
   opacity: 0.3;
 }
 
-.share-buttons img:hover {
+.canvasContainer > div > img:hover {
   opacity: 1;
 }
 
-.presets-container {
+
+.presetContainer {
   margin: 5px;
 }
 
-.presets-container img {
+.presetContainer img {
   cursor: pointer;
 }
 
-.preset-div {
-  padding: 1px;
-}
+@media screen and (max-width: 650px) {
+  body {
+    text-align: center;
+  }
 
-.preset-image {
-  width: 30px;
-  height: 30px;
-}
+  .mainPanel {
+    display: block;
+  }
 
-.preset-buttons-container {
-  padding-left: 5px;
-}
+  .categories {
+    display: block;
+  }
 
-.preset-buttons-container button {
-  box-shadow: 0 -3px rgb(108 108 108 / 50%) inset, 0 3px rgb(253 253 253 / 99%) inset, -3px 0 rgb(100 100 100 / 50%) inset, 3px 0 rgb(21 21 21 / 50%) inset;
-  background: #acacac;
-  height: 30px;
-  margin-bottom: 10px;
-  font-size: 10px;
-  font-weight: bolder;
-  font-family: minecraftfive, Arial, Helvetica, sans-serif;
-  padding: 0px 4px;
-  cursor: pointer;
-  border: none;
-  aspect-ratio: 1;
-}
+  .categoryImage {
+    height: 55px !important;
+    width: 55px !important;
+    margin: 0 3px;
+  }
 
-.preset-buttons-container button:hover {
-  background: #919191;
-}
+  .colourContainer {
+    float: none;
+    justify-content: center;
+    margin-bottom: 10px;
+    display: flex;
+  }
 
-.preset-div {
-  display: inline-block;
-  position: relative;
-  aspect-ratio: 1;
-  margin: 1px;
-}
+  .hint {
+    margin-top: 0;
+    margin-left: 5px;
+    width: unset;
+  }
 
-.preset-delete {
-  width: 20px;
-  position: absolute;
-  top: -8px;
-  right: -10px;
+  .parts {
+    display: block;
+  }
 
-  z-index: 10;
-  display: none;
-}
+  .customisePanel>div {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
 
-.preset-deletable .preset-delete {
-  display: block;
-}
-
-/* share-panel */
-.share-panel {
-  text-align: center;
-  padding: 0 10px 10px 10px;
-}
-
-
-.invisible {
-  display: none !important;
+  footer {
+    font-size: 12px;
+    margin: 0;
+  }
 }
 
 footer {
@@ -261,65 +266,38 @@ footer {
   font-size: 10px;
 }
 
-#contributor-section img {
-  border-radius: 50%;
+.presetImage {
   width: 30px;
   height: 30px;
-  padding: 1px
 }
 
-@media screen and (max-width: 650px) {
-  body {
-    
-    text-align: center;
-  }
-  .main-panels {
-    display: block;
-  }
-  .categories {
-    display: block;
-  }
-  .category-image {
-    height: 55px !important;
-    width: 55px !important;
-  }
-  .colour-container {
-    float: none;
-    justify-content: center;
-    margin-bottom: 10px;
-    display: flex;
-  }
-  #hint-text {
-    margin-top: 0;
-    margin-left: 5px;
-    width: unset;
-  }
-  .preview-panel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .parts {
-    display: block;
-  }
-  .colour {
-    display: inline-block;
-  }
-  .customise-options {
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-  }
-  footer {
-    font-size: 12px;
-    margin: 0;
-  }
+.presetContainer > div {
+  display: inline-block;
+  position: relative;
+  aspect-ratio: 1;
+  margin: 1px;
+  padding: 1px;
 }
 
-/* .minecraft-button {
-  color: white;
-  box-shadow: 0 -4px rgb(21 108 0 / 50%) inset, 0 4px rgb(100 253 31 / 99%) inset, -4px 0 rgb(100 253 31 / 50%) inset, 4px 0 rgb(21 108 0 / 50%) inset;
-  background: #34aa2f;
-  cursor: pointer;
-} */
+.presetDeleteIcon {
+  width: 20px;
+  position: absolute;
+  top: -8px;
+  right: -10px;
+
+  z-index: 10;
+}
+
+.presetDeleteIcon {
+  display: block;
+}
+
+.presetContainer > h3 {
+  font-size: unset;
+  margin-top: 0px;
+  margin-bottom: 8px;
+}
+
+.ShareScreen .presetButtons {
+  text-align: center;
+}

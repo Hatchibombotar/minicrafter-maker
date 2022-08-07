@@ -1,7 +1,7 @@
 [
     {
         "name": "Steve",
-        "image": "./storage/assets/presets/steve.png",
+        "image": "./presets/steve.png",
         "version": 2,
         "elements": {
             "eyes": [
@@ -43,7 +43,7 @@
     },
     {
         "name": "Alex",
-        "image": "./storage/assets/presets/alex.png",
+        "image": "./presets/alex.png",
         "version": 2,
         "elements": {
             "eyes": [

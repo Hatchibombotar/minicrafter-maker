@@ -1,3 +1,8 @@
 # Minicrafter Maker
-## Contributing
-If you want to contribute you can either make a fork and then put in a pull request or (if you are contributing textures) message me on discord (hatchibombotar#3794).
+A 2D character creator inspired by the one in Minecraft Bedrock.
+
+View Website: [Minicrafter Maker](https://hatchibombotar.com/minicrafter-maker/)
+
+---
+
+_Made with [SolidJS](https://www.solidjs.com/)_

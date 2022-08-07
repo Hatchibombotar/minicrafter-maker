@@ -64,7 +64,7 @@ export class Canvas {
     */
     async clear() {
         this.ctx.fillStyle = "#c0cbdc"
-        this.ctx.fillRect(0, 0, canvas.width, canvas.height)
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
         return
     }
 
