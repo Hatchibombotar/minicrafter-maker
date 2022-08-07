@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js 1
+      - name: Use Node.js 15
         uses: actions/setup-node@v1
         with:
           node-version: 16
@@ -23,5 +23,5 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
-          folder: /
           branch: build
+          folder: dist/
