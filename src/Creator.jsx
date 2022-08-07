@@ -44,7 +44,7 @@ function CustomisePanel({ canvas, layerData, setLayerData }) {
                 				${styles.categoryImage}
                 				${selectedCategory() == layer.id ? styles.categorySelected : undefined}`
 							}
-							src={`/categories/${layer.id}.png`}
+							src={`./categories/${layer.id}.png`}
 							height="40"
 							width="40"
 							alt={layer.id}
