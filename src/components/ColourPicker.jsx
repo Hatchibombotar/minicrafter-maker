@@ -4,7 +4,7 @@ import styles from '../App.module.css';
 export default function ColourPicker({ onInput }) {
 	let [colour, setColour] = createSignal([0, 0, 0])
 	const picker = <input
-		style={{ opacity: 0 }}
+		style={{ opacity: 0, height: "35px", width: "35px"}}
 		type="color"
 		name="color"
 		onInput={(e) => {
