@@ -3,6 +3,8 @@ import styles from '../App.module.css';
 
 export default function ColourPicker({ onInput }) {
 	let [colour, setColour] = createSignal([0, 0, 0])
+	let effectTimer;
+
 	const picker = <input
 		style={{ opacity: 0, height: "35px", width: "35px"}}
 		type="color"
@@ -15,7 +17,11 @@ export default function ColourPicker({ onInput }) {
 				parseInt(splitHex[1], 16),
 				parseInt(splitHex[2], 16)
 			])
-			onInput(colour())
+
+			clearTimeout(effectTimer)
+			effectTimer = setTimeout(() => {
+				onInput(colour())
+			}, 10);
 		}}>
 	</input>
 
