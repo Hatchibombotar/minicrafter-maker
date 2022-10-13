@@ -157,7 +157,7 @@ function Presets({ canvas, customPresets, layerData, setLayerData, setPresets })
 
 	return <>
 		<div class={styles.presetContainer}>
-			<h3>Presets</h3>
+			<h3>Saved Characters</h3>
 			<For each={defaultPresets}>{(preset, i) =>
 				<div onClick={async () => {
 					setLayerData([...presetToElements(preset, layerData())])

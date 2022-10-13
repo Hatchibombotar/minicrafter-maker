@@ -34,7 +34,6 @@ export async function drawMinicrafter(canvas) {
  * Modifies a layer in `layerCache`
  *
  * @param layer The layer being modified, identified by it's `id` property
- * @param {boolean} loadingGIF If the loading gif should display, default `true`
 */
 export async function modifyLayer(layer) {
 

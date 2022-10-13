@@ -24,9 +24,6 @@ export function ShareScreen() {
 		}
 	})
 
-	// onMount(() => console.log(window.location.href))
-
-
 	return <div class={styles.mainPanel}>
 		<div class={styles.ShareScreen}>
 			<h2>You have Mail!</h2>
