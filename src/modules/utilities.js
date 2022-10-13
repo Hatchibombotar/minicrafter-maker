@@ -13,7 +13,11 @@ export function elementsToPreset(elementsJSON, canvas = undefined) {
         currentPreset.elements[layer.id] = [layer.currentlySelected, layer.colour]
     }
 
-    if (canvas) currentPreset.image = canvas.toDataURL("image/png")
+    if (canvas) {
+        currentPreset.image = canvas.toDataURL("image/png")
+    } else {
+        currentPreset.image = "./presets/custom.png"
+    }
     
     return currentPreset
 }

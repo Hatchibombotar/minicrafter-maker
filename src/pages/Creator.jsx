@@ -1,21 +1,21 @@
-import styles from './App.module.css';
+import styles from '../App.module.css';
 
 import { createEffect, createSignal } from "solid-js";
 
-import { Canvas } from "./modules/Canvas.js";
-import { drawMinicrafter, initCache, modifyLayer } from "./modules/drawMinicrafter.js";
-import { elementsToPreset, presetToElements } from "./modules/utils.js";
+import { Canvas } from "../modules/Canvas.js";
+import { drawMinicrafter, initCache, modifyLayer } from "../drawMinicrafter.js";
+import { elementsToPreset, presetToElements } from "../modules/utilities.js";
 
-import saveIcon from "./assets/icons/ui/save.svg"
-import shareIcon from "./assets/icons/ui/share.svg"
-import trashIcon from "./assets/icons/ui/trash.svg"
-import editIcon from "./assets/icons/ui/pencil-alt.svg"
+import saveIcon from "../assets/icons/ui/save.svg"
+import shareIcon from "../assets/icons/ui/share.svg"
+import trashIcon from "../assets/icons/ui/trash.svg"
+import editIcon from "../assets/icons/ui/pencil-alt.svg"
 
-import elementsJSON from "./data/elements.json"
-import defaultPresets from "./data/default_presets.json"
+import elementsJSON from "../assets/data/elements.json"
+import defaultPresets from "../assets/data/default_presets.json"
 
-import ColourPicker from "./components/ColourPicker"
-import { Minicrafter } from './components/Minicrafter';
+import ColourPicker from "../components/ColourPicker"
+import { Minicrafter } from '../components/Minicrafter';
 
 import { useNavigate } from "@solidjs/router"
 

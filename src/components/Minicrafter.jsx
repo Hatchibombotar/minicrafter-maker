@@ -1,5 +1,5 @@
 import { onMount } from "solid-js";
-import { drawMinicrafter, initCache } from "../modules/drawMinicrafter.js";
+import { drawMinicrafter, initCache } from "../drawMinicrafter.js";
 
 export function Minicrafter({ canvas, layerData }) {
 	onMount(async () => {

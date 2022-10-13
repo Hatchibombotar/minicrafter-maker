@@ -1,14 +1,14 @@
-import styles from './App.module.css'
+import styles from '../App.module.css'
 
 import { createSignal, onMount } from "solid-js"
 
-import { Canvas } from "./modules/Canvas.js"
-import { elementsToPreset, presetToElements, getUrlVars } from "./modules/utils.js"
+import { Canvas } from "../modules/Canvas.js"
+import { elementsToPreset, presetToElements, getUrlVars } from "../modules/utilities.js"
 
-import elementsJSON from "./data/elements.json"
+import elementsJSON from "../assets/data/elements.json"
 
 import { Link, useNavigate } from "@solidjs/router"
-import { Minicrafter } from './components/Minicrafter'
+import { Minicrafter } from '../components/Minicrafter'
 
 export function ShareScreen() {
 	const canvasElement = <canvas class={styles.primaryCanvas} alt="Minicrafter Image" height="32" width="32"></canvas>

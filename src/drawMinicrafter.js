@@ -1,4 +1,4 @@
-import {Canvas} from "./Canvas.js";
+import {Canvas} from "./modules/Canvas.js";
 
 const layerCache = new Map()
 
@@ -13,7 +13,7 @@ export async function drawMinicrafter(canvas) {
     processingCanvas.canvas.height = 32
 
     processingCanvas.ctx.fillRect(0, 0, canvas.width, canvas.height)
-
+ 
     for (const layer of layerCache) {
         const newImageLayer = new Canvas()
         newImageLayer.canvas.width = 32
