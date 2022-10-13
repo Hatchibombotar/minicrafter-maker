@@ -132,7 +132,7 @@ function PreviewPanel({ canvas, layerData, setLayerData }) {
 					<img src={saveIcon} height="20px" width="20px" alt="Save your Minicrafter as a preset" title="Save" onClick={() => {
 						setPresets([
 							...customPresets(),
-							elementsToPreset(layerData())
+							elementsToPreset(layerData(), canvas.canvas)
 						])
 					}}
 					/>
