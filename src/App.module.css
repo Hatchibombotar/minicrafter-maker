@@ -138,6 +138,7 @@
   cursor: pointer;
   border: none;
   border-radius: 0;
+  /* aspect-ratio: 1; */
 }
 
 input.colour {
@@ -218,7 +219,7 @@ input.colour {
   }
 
   .mainPanel {
-    display: block;
+    flex-direction: column-reverse;
   }
 
   .categories {
@@ -258,6 +259,13 @@ input.colour {
   footer {
     font-size: 12px !important;
     margin: 0;
+  }
+  
+  .canvasContainer canvas {
+    max-width: 320px;
+    width: 100%;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: pixelated;
   }
 }
 
