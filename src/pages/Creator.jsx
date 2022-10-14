@@ -71,7 +71,14 @@ function CustomisePanel({ canvas, layerData, setLayerData }) {
 										const allLayerData = layerData()
 										const currentLayerData = allLayerData[layerIndex()]
 										if (layer.limitSelections === false) {
-											currentLayerData.currentlySelected.push(part)
+
+											
+											if (currentLayerData.currentlySelected.includes(part)) {
+												currentLayerData.currentlySelected = currentLayerData.currentlySelected.filter((element) => element != part)
+											} else {
+												currentLayerData.currentlySelected.push(part)
+											}
+
 											if (part == "none") currentLayerData.currentlySelected = [currentLayerData.elements[0]]
 											else currentLayerData.currentlySelected = currentLayerData.currentlySelected.filter((element) => element != "none")
 										} else {
