@@ -1,8 +1,8 @@
 import { createSignal } from "solid-js";
-import styles from '../App.module.css';
+import styles from '../App.module.scss';
 
 export default function ColourPicker({ onInput }) {
-	let [colour, setColour] = createSignal([0, 0, 0])
+	const [colour, setColour] = createSignal([0, 0, 0])
 	let effectTimer;
 
 	const picker = <input

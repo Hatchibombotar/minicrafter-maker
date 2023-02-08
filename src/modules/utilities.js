@@ -18,7 +18,7 @@ export function elementsToPreset(elementsJSON, canvas = undefined) {
     } else {
         currentPreset.image = "./presets/custom.png"
     }
-    
+
     return currentPreset
 }
 
@@ -71,4 +71,14 @@ export function getUrlVars() {
         vars[key] = value
     })
     return vars
+}
+
+import { createEffect, createSignal } from "solid-js"
+
+export function createLocalSignal(init, name) {
+    let localState = localStorage.getItem(name);
+    
+    const [state, setState] = createSignal(localState ? JSON.parse(localState) : init);
+    createEffect(() => localStorage.setItem(name, JSON.stringify(state())));
+    return [state, setState];
 }

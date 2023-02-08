@@ -14,9 +14,16 @@
   font-display: swap;
 }
 
+@mixin box-style {
+  background-image: linear-gradient(#94979f, #c4b9b7);
+  border: 5px solid #64606e;
+  box-shadow: inset 0 -4px 50px 0px #968f8f, inset 0 -6px 0 0px #868086;
+}
+
 * {
   box-sizing: border-box;
 }
+
 
 .App {
   background-color: #d29196;
@@ -41,42 +48,54 @@
 
 .socialButtons {
   text-align: center;
-}
 
-.socialButtons img {
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  margin: 5px;
-  cursor: pointer;
+  img {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    cursor: pointer;
+  }
 }
 
 .mainPanel {
   display: flex;
   justify-content: center;
+
+  >div {
+    margin: 8px;
+    height: auto;
+    width: auto;
+
+    @include box-style();
+
+    h2 {
+      margin-top: 1px;
+      margin-bottom: 0px;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 650px) {
+    flex-direction: column-reverse;
+  }
 }
 
-.mainPanel>div {
-  margin: 8px;
-  height: auto;
-  width: auto;
-
-  background-image: linear-gradient(#94979f, #c4b9b7);
-  border: 5px solid #64606e;
-  box-shadow: inset 0 -4px 50px 0px #968f8f, inset 0 -6px 0 0px #868086;
-}
-
-.mainPanel>div>h2 {
-  margin-top: 1px;
-  margin-bottom: 0px;
-  text-align: center;
-}
 
 /* customise panel */
 
 .customisePanel {
   padding-left: 7px;
   padding-right: 7px;
+
+  >div {
+    @media (max-width: 650px) {
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+    }
+  }
 }
 
 .categories {
@@ -86,6 +105,10 @@
   width: auto;
   grid-template-columns: auto;
   float: left;
+
+  @media (max-width: 650px) {
+    display: block;
+  }
 }
 
 .categoryImage {
@@ -93,6 +116,12 @@
   cursor: pointer;
   -webkit-user-select: none;
   user-select: none;
+
+  @media (max-width: 650px) {
+    height: 55px !important;
+    width: 55px !important;
+    margin: 0 3px;
+  }
 }
 
 .categorySelected,
@@ -105,13 +134,17 @@
   display: grid;
   grid-template-columns: min-content min-content min-content;
   min-width: 180px;
-}
 
-.parts img {
-  margin: 5px;
-  cursor: pointer;
-  -webkit-user-select: none;
-  user-select: none;
+  img {
+    margin: 5px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  @media (max-width: 650px) {
+    display: block;
+  }
 }
 
 .hint {
@@ -119,6 +152,12 @@
   margin-right: 10px;
   margin-top: 5px;
   padding: 0;
+
+  @media (max-width: 650px) {
+    margin-top: 0;
+    margin-left: 5px;
+    width: unset;
+  }
 }
 
 .categories .categoryImage {
@@ -129,6 +168,13 @@
   float: left;
   display: grid;
   grid-template-columns: min-content min-content min-content min-content;
+
+  @media (max-width: 650px) {
+    float: none;
+    justify-content: center;
+    margin-bottom: 10px;
+    display: flex;
+  }
 }
 
 .colour {
@@ -150,26 +196,25 @@ input.colour {
 
 .presetButtons {
   padding-left: 4px;
-}
 
-.presetButtons button {
-  box-shadow: 0 -3px rgb(108 108 108 / 50%) inset, 0 3px rgb(253 253 253 / 99%) inset, -3px 0 rgb(100 100 100 / 50%) inset, 3px 0 rgb(21 21 21 / 50%) inset;
-  background: #acacac;
-  height: 30px;
-  font-size: 10px;
-  font-weight: bolder;
-  font-family: minecraftfive, Arial, Helvetica, sans-serif;
-  padding: 0px 4px;
-  margin: 0px 2px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  border: none;
-  aspect-ratio: 1;
-  
-}
+  button {
+    box-shadow: 0 -3px rgb(108 108 108 / 50%) inset, 0 3px rgb(253 253 253 / 99%) inset, -3px 0 rgb(100 100 100 / 50%) inset, 3px 0 rgb(21 21 21 / 50%) inset;
+    background: #acacac;
+    height: 30px;
+    font-size: 10px;
+    font-weight: bolder;
+    font-family: minecraftfive, Arial, Helvetica, sans-serif;
+    padding: 0px 4px;
+    margin: 0px 2px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border: none;
+    aspect-ratio: 1;
 
-.presetButtons button:hover {
-  background: #919191;
+    &:hover {
+      background: #919191;
+    }
+  }
 }
 
 .canvasContainer {
@@ -177,115 +222,79 @@ input.colour {
   padding: 0;
 
   position: relative;
-}
 
-.canvasContainer canvas {
-  width: 320px;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: pixelated;
-}
+  >div {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    cursor: pointer;
 
-.canvasContainer img#loading {
-  position: absolute;
-}
+    img, svg {
+      opacity: 0.3;
 
-.canvasContainer > div {
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  cursor: pointer;
-}
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
 
-.canvasContainer > div > img {
-  opacity: 0.3;
-}
+  canvas {
+    width: 320px;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: pixelated;
 
-.canvasContainer > div > img:hover {
-  opacity: 1;
+    @media (max-width: 650px) {
+      max-width: 320px;
+      width: 100%;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: pixelated;
+    }
+  }
 }
 
 
 .presetContainer {
   margin: 5px;
+
+  img {
+    cursor: pointer;
+  }
+
+  >div {
+    display: inline-block;
+    position: relative;
+    aspect-ratio: 1;
+    margin: 1px;
+    padding: 1px;
+    max-width: 35px;
+  }
+
+  >h3 {
+    font-size: 16px;
+    margin-top: 0px;
+    margin-bottom: 8px;
+  }
 }
 
-.presetContainer img {
-  cursor: pointer;
-}
-
-@media screen and (max-width: 650px) {
-  body {
+body {
+  @media (max-width: 650px) {
     text-align: center;
-  }
-
-  .mainPanel {
-    flex-direction: column-reverse;
-  }
-
-  .categories {
-    display: block;
-  }
-
-  .categoryImage {
-    height: 55px !important;
-    width: 55px !important;
-    margin: 0 3px;
-  }
-
-  .colourContainer {
-    float: none;
-    justify-content: center;
-    margin-bottom: 10px;
-    display: flex;
-  }
-
-  .hint {
-    margin-top: 0;
-    margin-left: 5px;
-    width: unset;
-  }
-
-  .parts {
-    display: block;
-  }
-
-  .customisePanel>div {
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-  }
-
-  footer {
-    font-size: 12px !important;
-    margin: 0;
-  }
-  
-  .canvasContainer canvas {
-    max-width: 320px;
-    width: 100%;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: pixelated;
   }
 }
 
 footer {
   margin-left: 10px;
   font-size: 10px;
+
+  @media (max-width: 650px) {
+    font-size: 12px !important;
+    margin: 0;
+  }
 }
 
 .presetImage {
   width: 30px;
   height: 30px;
-}
-
-.presetContainer > div {
-  display: inline-block;
-  position: relative;
-  aspect-ratio: 1;
-  margin: 1px;
-  padding: 1px;
-  max-width: 35px;
 }
 
 .presetDeleteIcon {
@@ -299,12 +308,6 @@ footer {
 
 .presetDeleteIcon {
   display: block;
-}
-
-.presetContainer > h3 {
-  font-size: 16px;
-  margin-top: 0px;
-  margin-bottom: 8px;
 }
 
 .ShareScreen .presetButtons {

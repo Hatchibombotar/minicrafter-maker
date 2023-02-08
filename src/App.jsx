@@ -5,7 +5,7 @@ import {ShareScreen} from "./pages/ShareScreen"
 
 import githubLogo from "./assets/icons/github.png"
 
-import styles from './App.module.css';
+import styles from './App.module.scss';
 
 import GithubContributors from "./components/GithubContributors.jsx"
 

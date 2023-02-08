@@ -1,42 +1,39 @@
-import styles from '../App.module.css';
+import styles from '../App.module.scss'
 
-import { createEffect, createSignal } from "solid-js";
+import { createSignal } from "solid-js"
 
 import { Canvas } from "../modules/Canvas.js";
-import { drawMinicrafter, initCache, modifyLayer } from "../drawMinicrafter.js";
-import { elementsToPreset, presetToElements } from "../modules/utilities.js";
+import { drawMinicrafter, initCache, modifyLayer } from "../drawMinicrafter.js"
+import { elementsToPreset, presetToElements, createLocalSignal } from "../modules/utilities.js"
 
-import saveIcon from "../assets/icons/ui/save.svg"
-import shareIcon from "../assets/icons/ui/share.svg"
-import trashIcon from "../assets/icons/ui/trash.svg"
-import editIcon from "../assets/icons/ui/pencil-alt.svg"
+import { HiSolidSave, HiSolidShare, HiSolidTrash, HiSolidPencilAlt } from 'solid-icons/hi'
 
 import elementsJSON from "../assets/data/elements.json"
 import defaultPresets from "../assets/data/default_presets.json"
 
 import ColourPicker from "../components/ColourPicker"
-import { Minicrafter } from '../components/Minicrafter';
+import { Minicrafter } from '../components/Minicrafter'
 
 import { useNavigate } from "@solidjs/router"
 
-export function Creator() {
-	const canvasElement = <canvas class={styles.primaryCanvas} alt="Minicrafter Image" height="32" width="32"/>
-	const canvas = new Canvas(canvasElement)
+const canvasElement = <canvas class={styles.primaryCanvas} alt="Minicrafter Image" height="32" width="32" />
+const canvas = new Canvas(canvasElement)
+const [layerData, setLayerData] = createSignal(elementsJSON)
 
-	const [layerData, setLayerData] = createSignal(elementsJSON)
+export function Creator() {
 	return <div class={styles.mainPanel}>
-		<CustomisePanel canvas={canvas} layerData={layerData} setLayerData={setLayerData}/>
-		<PreviewPanel canvas={canvas} layerData={layerData} setLayerData={setLayerData}/>
+		<CustomisePanel />
+		<PreviewPanel />
 	</div>
 
 }
 
-function CustomisePanel({ canvas, layerData, setLayerData }) {
+function CustomisePanel() {
 	const [selectedCategory, setCategory] = createSignal()
 	return (
 		<div class={styles.customisePanel}>
 			<h2>Settings</h2>
-			<div class="customise-options">
+			<div>
 				<div class={styles.categories}>
 					<For each={layerData()}>{(layer) =>
 						<img
@@ -72,7 +69,7 @@ function CustomisePanel({ canvas, layerData, setLayerData }) {
 										const currentLayerData = allLayerData[layerIndex()]
 										if (layer.limitSelections === false) {
 
-											
+
 											if (currentLayerData.currentlySelected.includes(part)) {
 												currentLayerData.currentlySelected = currentLayerData.currentlySelected.filter((element) => element != part)
 											} else {
@@ -126,41 +123,41 @@ function CustomisePanel({ canvas, layerData, setLayerData }) {
 	)
 }
 
-function PreviewPanel({ canvas, layerData, setLayerData }) {
-	const [customPresets, setPresets] = createSignal(JSON.parse(localStorage.getItem("userPresets")) ?? [])
+const [customPresets, setPresets] = createLocalSignal([], "userPresets")
+
+function PreviewPanel() {
 	const navigate = useNavigate()
 
 	return (
-		<div class="preview-panel">
+		<div>
 			<h2>Preview</h2>
 			<div class={styles.canvasContainer}>
-				<Minicrafter canvas={canvas} layerData={layerData}/>
+				<Minicrafter canvas={canvas} layerData={layerData} />
 				<div>
-					<img src={saveIcon} height="20px" width="20px" alt="Save your Minicrafter as a preset" title="Save" onClick={() => {
-						setPresets([
-							...customPresets(),
-							elementsToPreset(layerData(), canvas.canvas)
-						])
-					}}
-					/>
-					<img src={shareIcon} height="20px" width="20px" alt="Share your Minicrafter." title="Share" onClick={() => {
-						const shareLink = elementsToPreset(layerData())
-						navigate(`/share?preset=${encodeURIComponent(JSON.stringify(shareLink))}`, { replace: false })
-					}}/>
+					<a alt="Save your Minicrafter as a preset" title="Save">
+						<HiSolidSave size={20} onclick={() => {
+							setPresets([
+								...customPresets(),
+								elementsToPreset(layerData(), canvas.canvas)
+							])
+						}} />
+					</a>
+					<a alt="Share your Minicrafter." title="Share">
+						<HiSolidShare size={20} onclick={() => {
+							const shareLink = elementsToPreset(layerData())
+							navigate(`/share?preset=${encodeURIComponent(JSON.stringify(shareLink))}`, { replace: false })
+						}} />
+					</a>
 				</div>
 			</div>
-			<Presets canvas={canvas} customPresets={customPresets} layerData={layerData} setLayerData={setLayerData} setPresets={setPresets}/>
+			<Presets />
 		</div>
 	)
 }
 
-function Presets({ canvas, customPresets, layerData, setLayerData, setPresets }) {
+function Presets() {
 	const [presetsDeletable, makePresetsDeletable] = createSignal(false)
 	const toggleDelete = () => makePresetsDeletable(!presetsDeletable())
-
-	createEffect(() => {
-		localStorage.setItem("userPresets", JSON.stringify(customPresets()))
-	})
 
 	return <>
 		<div class={styles.presetContainer}>
@@ -172,7 +169,7 @@ function Presets({ canvas, customPresets, layerData, setLayerData, setPresets })
 					await initCache(layerData())
 					drawMinicrafter(canvas)
 				}}>
-					<img class={styles.presetImage} src={preset.image} alt={preset.name ?? "Minicrafter Preset"}/>
+					<img class={styles.presetImage} src={preset.image} alt={preset.name ?? "Minicrafter Preset"} />
 				</div>
 			}</For>
 			<For each={customPresets()}>{(preset, i) =>
@@ -188,22 +185,22 @@ function Presets({ canvas, customPresets, layerData, setLayerData, setPresets })
 						setPresets([...customPresetsNow])
 					}
 				}}>
-					<img class={styles.presetImage} src={preset.image} alt="Custom Saved Minicrafter"/>
+					<img class={styles.presetImage} src={preset.image} alt="Custom Saved Minicrafter" />
 					<Show when={presetsDeletable()}>
-						<img class={styles.presetDeleteIcon} src="./none.png"/>
+						<img class={styles.presetDeleteIcon} src="./none.png" />
 					</Show>
 				</div>
 			}</For>
 		</div>
 		<div class={styles.presetButtons}>
-			<button type="button" onClick={() => toggleDelete()}>
-				<img src={editIcon} height="20px" width="20px" alt="Delete All"/>
+			<button type="button" onClick={() => toggleDelete()} title="Edit">
+				<HiSolidPencilAlt size={20}/>
 			</button>
 			<Show when={presetsDeletable()}>
-				<button type="button" class="hideable invisible" onClick={() => {
+				<button type="button" title="Delete All" onClick={() => {
 					if (confirm("Are you sure you want to delete all your custom presets?")) setPresets([])
 				}}>
-					<img src={trashIcon} height="20px" width="20px" alt="Delete All"/>
+					<HiSolidTrash size={20}/>
 				</button>
 			</Show>
 		</div>
