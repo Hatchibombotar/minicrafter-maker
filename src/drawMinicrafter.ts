@@ -1,4 +1,4 @@
-import {Canvas} from "./modules/Canvas.js";
+import {Canvas} from "./modules/Canvas.ts";
 
 const layerCache = new Map()
 

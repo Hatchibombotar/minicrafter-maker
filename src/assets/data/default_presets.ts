@@ -1,4 +1,5 @@
-[
+import { Preset } from "../../types"
+const defaultPresets: Preset[] = [
     {
         "name": "Steve",
         "image": "./presets/steve.png",
@@ -84,3 +85,5 @@
         }
     }
 ]
+
+export default defaultPresets

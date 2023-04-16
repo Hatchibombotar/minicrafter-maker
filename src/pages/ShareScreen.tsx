@@ -2,20 +2,23 @@ import styles from '../App.module.scss'
 
 import { createSignal, onMount } from "solid-js"
 
-import { Canvas } from "../modules/Canvas.js"
-import { elementsToPreset, presetToElements, getUrlVars } from "../modules/utilities.js"
+import { Canvas } from "../modules/Canvas.ts"
+import { elementsToPreset, presetToElements, getUrlVars } from "../modules/utilities.ts"
 
-import elementsJSON from "../assets/data/elements.json"
+import elementsJSON from "../assets/data/elements.ts"
 
 import { Link, useNavigate } from "@solidjs/router"
-import { Minicrafter } from '../components/Minicrafter'
+import { Minicrafter } from '../components/Minicrafter.jsx'
+import { createLocalSignal } from '../modules/utilities.ts'
 
 export function ShareScreen() {
-	const canvasElement = <canvas class={styles.primaryCanvas} alt="Minicrafter Image" height="32" width="32"></canvas>
+	const canvasElement = <canvas class={styles.primaryCanvas} height="32" width="32"></canvas> as HTMLCanvasElement
 	const canvas = new Canvas(canvasElement)
-	const [customPresets, setPresets] = createSignal(JSON.parse(localStorage.getItem("userPresets")) ?? [])
+	// const [customPresets, setPresets] = createSignal(JSON.parse(localStorage.getItem("userPresets")) ?? [])
 	const [layerData, setLayerData] = createSignal(elementsJSON)
 	const navigate = useNavigate()
+	const [customPresets, setPresets] = createLocalSignal([], "userPresets")
+
 
 	onMount(() => {
 		if (window.location.href.includes("/share")) {
@@ -36,7 +39,6 @@ export function ShareScreen() {
 						...customPresets(),
 						elementsToPreset(layerData(), canvas.canvas)
 					])
-					localStorage.setItem("userPresets", JSON.stringify(customPresets()))
 					navigate("/")
 				}}>SAVE</button>
 				<Link href="/"><button type="button">CANCEL</button></Link>

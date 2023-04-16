@@ -6,10 +6,10 @@ import './index.css';
 import App from './src/App';
 
 render(
-    () => (
-      <Router source={hashIntegration()}>
-        <App />
-      </Router>
-    ),
-    document.getElementById("root")
-  );
+  () => (
+    <Router source={hashIntegration()}>
+      <App />
+    </Router>
+  ),
+  document.getElementById("root")
+);

@@ -1,7 +1,7 @@
 import { Routes, Route } from "@solidjs/router"
 
-import {Creator} from "./pages/Creator"
-import {ShareScreen} from "./pages/ShareScreen"
+import {Creator} from "./pages/Creator.jsx"
+import {ShareScreen} from "./pages/ShareScreen.jsx"
 
 import githubLogo from "./assets/icons/github.png"
 

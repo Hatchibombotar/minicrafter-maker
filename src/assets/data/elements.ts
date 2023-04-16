@@ -1,4 +1,6 @@
-[
+import { ElementList } from "../../types"
+
+const elements: ElementList = [
     {
         "id": "background",
         "elements": [ "plain", "bamboo", "endstone", "terrain", "gold_border", "black_glazed_terracotta" ],
@@ -147,3 +149,5 @@
         "defaultColours": [ [ 170, 170, 170 ], [ 123, 123, 122 ], [ 83, 83, 83 ] ]
     }
 ]
+
+export default elements

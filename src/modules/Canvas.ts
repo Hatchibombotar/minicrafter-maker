@@ -1,5 +1,11 @@
+import { JSXElement } from "solid-js";
+
+type CanvasElement = HTMLCanvasElement | JSXElement
+
 export class Canvas {
-    constructor(canvas) {
+    canvas: HTMLCanvasElement;
+    ctx: CanvasRenderingContext2D;
+    constructor(canvas?: HTMLCanvasElement) {
         if (canvas) {
             this.canvas = canvas
         } else {
@@ -72,7 +78,7 @@ export class Canvas {
      * Gets the width property of this canvas.
      * @returns {int} width
     */
-    get width() {
+    get width(): number {
         return this.canvas.width
     }
 
