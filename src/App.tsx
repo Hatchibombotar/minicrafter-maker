@@ -1,20 +1,20 @@
 import { Routes, Route } from "@solidjs/router"
 
-import {Creator} from "./pages/Creator.jsx"
-import {ShareScreen} from "./pages/ShareScreen.jsx"
+import {Creator} from "./pages/Creator.tsx"
+import {ShareScreen} from "./pages/ShareScreen.tsx"
 
 import githubLogo from "./assets/icons/github.png"
 
-import styles from './App.module.scss';
+import styles from './App.scss';
 
-import GithubContributors from "./components/GithubContributors.jsx"
+import GithubContributors from "./components/GithubContributors.tsx"
 
 export default function App() {
 	return (
-		<div class={styles.App}>
+		<div class="App">
 			<header>
-				<h1 class={styles.title}>Minicrafter Maker</h1>
-				<div class={styles.socialButtons}>
+				<h1 class="title">Minicrafter Maker</h1>
+				<div class="socialButtons">
 					<a href="https://github.com/Hatchibombotar/minicrafter-maker">
 						<img src={githubLogo} alt="Github"></img>
 					</a>

@@ -1,5 +1,5 @@
 import { createSignal } from "solid-js";
-import styles from '../App.module.scss';
+import styles from '../App.scss';
 
 export default function ColourPicker({ onInput }) {
 	const [colour, setColour] = createSignal([0, 0, 0])
@@ -9,9 +9,9 @@ export default function ColourPicker({ onInput }) {
 
 	return <div
 		style={{ background: `rgb(${colour().join(",")})` }}
-		class={styles.colour}
+		class="colour"
 		onClick={() => {
-			picker.click()``
+			picker.click()
 		}}>
 		<input
 			style={{ opacity: 0, height: "35px", width: "35px" }}

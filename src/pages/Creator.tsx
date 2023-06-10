@@ -1,4 +1,4 @@
-import styles from '../App.module.scss'
+import styles from '../App.scss'
 
 import { createSignal, Show, For } from "solid-js"
 
@@ -18,12 +18,12 @@ import { useNavigate } from "@solidjs/router"
 
 import { Preset, Colour, ElementList } from '../types';
 
-const canvasElement = <canvas class={styles.primaryCanvas} height="32" width="32" /> as HTMLCanvasElement
+const canvasElement = <canvas class="primaryCanvas" height="32" width="32" /> as HTMLCanvasElement
 const canvas = new Canvas(canvasElement)
 const [layerData, setLayerData] = createSignal(elementsJSON)
 
 export function Creator() {
-	return <div class={styles.mainPanel}>
+	return <div class="mainPanel">
 		<CustomisePanel />
 		<PreviewPanel />
 	</div>
@@ -33,15 +33,15 @@ export function Creator() {
 function CustomisePanel() {
 	const [selectedCategory, setCategory] = createSignal()
 	return (
-		<div class={styles.customisePanel}>
+		<div class="customisePanel">
 			<h2>Settings</h2>
 			<div>
-				<div class={styles.categories}>
+				<div class="categories">
 					<For each={layerData()}>{(layer) =>
 						<img
 							class={`
-                				${styles.categoryImage}
-                				${selectedCategory() == layer.id ? styles.categorySelected : undefined}`
+                				categoryImage
+                				${selectedCategory() == layer.id ? "categorySelected" : undefined}`
 							}
 							src={`./categories/${layer.id}.png`}
 							height="40"
@@ -51,16 +51,16 @@ function CustomisePanel() {
 						</img>
 					}</For>
 				</div>
-				<div class={styles.parts}>
+				<div class="parts">
 					<Show when={!selectedCategory()}>
-						<p class={styles.hint}>Press an icon to change how the character looks!</p>
+						<p class="hint">Press an icon to change how the character looks!</p>
 					</Show>
 					<For each={layerData()}>{(layer: any, layerIndex) =>
 						<Show when={selectedCategory() == layer.id && layer.showElements !== false}>
 							<For each={layer.elements}>{(part: string) =>
 								<img
 									classList={{
-										[styles.elementSelected]: layerData()[layerIndex()].currentlySelected.includes(part)
+										"elementSelected": layerData()[layerIndex()].currentlySelected.includes(part)
 									}}
 									src={`./preview/${layer.id}/${part}.png`}
 									height="50"
@@ -94,12 +94,12 @@ function CustomisePanel() {
 						</Show>
 					}</For>
 				</div>
-				<div class={styles.colourContainer}>
+				<div class="colourContainer">
 					<For each={layerData()}>{(layer) =>
 						<Show when={selectedCategory() == layer.id}>
 							<For each={layer.defaultColours}>{(colour, i) =>
 								<div
-									class={styles.colour}
+									class="colour"
 									style={{ background: `rgb(${colour.join(",")})` }}
 									onClick={async () => {
 										layer.colour = colour
@@ -110,13 +110,11 @@ function CustomisePanel() {
 
 							}</For>
 							<ColourPicker
-								class={styles.colour}
 								onInput={async (colour) => {
 									layer.colour = colour
 									await modifyLayer(layer)
 									await drawMinicrafter(canvas)
-								}}>
-							</ColourPicker>
+								}}/>
 						</Show>
 					}</For>
 				</div>
@@ -133,7 +131,7 @@ function PreviewPanel() {
 	return (
 		<div>
 			<h2>Preview</h2>
-			<div class={styles.canvasContainer}>
+			<div class="canvasContainer">
 				<Minicrafter canvas={canvas} layerData={layerData} />
 				<div>
 					<a title="Save">
@@ -162,7 +160,7 @@ function Presets() {
 	const toggleDelete = () => makePresetsDeletable(!presetsDeletable())
 
 	return <>
-		<div class={styles.presetContainer}>
+		<div class="presetContainer">
 			<h3>Saved Characters</h3>
 			<For each={defaultPresets}>{(preset: Preset) =>
 				<div onClick={async () => {
@@ -171,7 +169,7 @@ function Presets() {
 					await initCache(layerData())
 					drawMinicrafter(canvas)
 				}}>
-					<img class={styles.presetImage} src={preset.image} alt={preset.name ?? "Minicrafter Preset"} />
+					<img class="presetImage" src={preset.image} alt={preset.name ?? "Minicrafter Preset"} />
 				</div>
 			}</For>
 			<For each={customPresets()}>{(preset: Preset, i) =>
@@ -187,14 +185,14 @@ function Presets() {
 						setPresets([...customPresetsNow])
 					}
 				}}>
-					<img class={styles.presetImage} src={preset.image} alt="Custom Saved Minicrafter" />
+					<img class="presetImage" src={preset.image} alt="Custom Saved Minicrafter" />
 					<Show when={presetsDeletable()}>
-						<img class={styles.presetDeleteIcon} src="./none.png" />
+						<img class="presetDeleteIcon" src="./none.png" />
 					</Show>
 				</div>
 			}</For>
 		</div>
-		<div class={styles.presetButtons}>
+		<div class="presetButtons">
 			<button type="button" onClick={() => toggleDelete()} title="Edit">
 				<HiSolidPencilAlt size={20} />
 			</button>

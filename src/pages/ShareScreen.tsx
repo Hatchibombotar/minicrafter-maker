@@ -1,4 +1,4 @@
-import styles from '../App.module.scss'
+import styles from '../App.scss'
 
 import { createSignal, onMount } from "solid-js"
 
@@ -12,7 +12,7 @@ import { Minicrafter } from '../components/Minicrafter.jsx'
 import { createLocalSignal } from '../modules/utilities.ts'
 
 export function ShareScreen() {
-	const canvasElement = <canvas class={styles.primaryCanvas} height="32" width="32"></canvas> as HTMLCanvasElement
+	const canvasElement = <canvas class="primaryCanvas" height="32" width="32"></canvas> as HTMLCanvasElement
 	const canvas = new Canvas(canvasElement)
 	// const [customPresets, setPresets] = createSignal(JSON.parse(localStorage.getItem("userPresets")) ?? [])
 	const [layerData, setLayerData] = createSignal(elementsJSON)
@@ -27,13 +27,13 @@ export function ShareScreen() {
 		}
 	})
 
-	return <div class={styles.mainPanel}>
-		<div class={styles.ShareScreen}>
+	return <div class="mainPanel">
+		<div class="ShareScreen">
 			<h2>You have Mail!</h2>
-			<div class={styles.canvasContainer}>
+			<div class="canvasContainer">
 				<Minicrafter canvas={canvas} layerData={layerData}></Minicrafter>
 			</div>
-			<div class={styles.presetButtons}>
+			<div class="presetButtons">
 				<button type="button" onClick={() => {
 					setPresets([
 						...customPresets(),
