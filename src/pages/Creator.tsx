@@ -33,7 +33,7 @@ export function Creator() {
 function CustomisePanel() {
 	const [selectedCategory, setCategory] = createSignal()
 	return (
-		<div class="customisePanel">
+		<div class="customisePanel box-container">
 			<h2>Settings</h2>
 			<div>
 				<div class="categories">
@@ -129,7 +129,7 @@ function PreviewPanel() {
 	const navigate = useNavigate()
 
 	return (
-		<div>
+		<div class="box-container">
 			<h2>Preview</h2>
 			<div class="canvasContainer">
 				<Minicrafter canvas={canvas} layerData={layerData} />

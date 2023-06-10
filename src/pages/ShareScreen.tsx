@@ -28,7 +28,7 @@ export function ShareScreen() {
 	})
 
 	return <div class="mainPanel">
-		<div class="ShareScreen">
+		<div class="box-container">
 			<h2>You have Mail!</h2>
 			<div class="canvasContainer">
 				<Minicrafter canvas={canvas} layerData={layerData}></Minicrafter>

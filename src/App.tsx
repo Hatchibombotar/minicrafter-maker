@@ -5,7 +5,7 @@ import {ShareScreen} from "./pages/ShareScreen.tsx"
 
 import githubLogo from "./assets/icons/github.png"
 
-import styles from './App.scss';
+import './App.scss';
 
 import GithubContributors from "./components/GithubContributors.tsx"
 
@@ -13,7 +13,7 @@ export default function App() {
 	return (
 		<div class="App">
 			<header>
-				<h1 class="title">Minicrafter Maker</h1>
+				<h1 class="title font-ten">Minicrafter Maker</h1>
 				<div class="socialButtons">
 					<a href="https://github.com/Hatchibombotar/minicrafter-maker">
 						<img src={githubLogo} alt="Github"></img>

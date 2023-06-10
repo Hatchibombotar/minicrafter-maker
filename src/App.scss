@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 @font-face {
   font-family: 'minecraftfive';
   src: local('sans-serif'), url('./assets/fonts/minecraft-five-825cb-webfont.woff2') format('woff2'), url('./assets/fonts/minecraft-five-825cb-webfont.woff') format('woff');
@@ -14,20 +18,21 @@
   font-display: swap;
 }
 
-@mixin box-style {
+.box-container {
   background-image: linear-gradient(#94979f, #c4b9b7);
   border: 5px solid #64606e;
   box-shadow: inset 0 -4px 50px 0px #968f8f, inset 0 -6px 0 0px #868086;
 }
 
-* {
-  box-sizing: border-box;
+
+.font-ten {
+  font-family: minecraftten;
 }
 
 
 .App {
   background-color: #d29196;
-  font-family: minecraftfive, Arial, Helvetica, sans-serif;
+  font-family: minecraftfive;
   background-image: linear-gradient(#005592, #d29196);
   margin: 0;
   padding: 8px;
@@ -37,7 +42,6 @@
   text-shadow: 0 3px cornflowerblue;
   font-weight: 100;
   font-size: 35px;
-  font-family: minecraftten, Arial, Helvetica, sans-serif;
   text-align: center;
   margin: 0;
 
@@ -67,7 +71,7 @@
     height: auto;
     width: auto;
 
-    @include box-style();
+    // @include box-style();
 
     h2 {
       margin-top: 1px;
@@ -85,17 +89,8 @@
 /* customise panel */
 
 .customisePanel {
-  padding-left: 7px;
-  padding-right: 7px;
-
-  >div {
-    @media (max-width: 650px) {
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-    }
-  }
+  padding-left:  8px;
+  padding-right: 8px;
 }
 
 .categories {
@@ -308,8 +303,4 @@ footer {
 
 .presetDeleteIcon {
   display: block;
-}
-
-.ShareScreen .presetButtons {
-  text-align: center;
 }
