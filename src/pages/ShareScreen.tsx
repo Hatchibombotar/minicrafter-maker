@@ -27,22 +27,26 @@ export function ShareScreen() {
 		}
 	})
 
-	return <div class="mainPanel">
+	return <>
 		<div class="box-container">
 			<h2>You have Mail!</h2>
-			<div class="canvasContainer">
+			<div class="canvas-container">
 				<Minicrafter canvas={canvas} layerData={layerData}></Minicrafter>
 			</div>
-			<div class="presetButtons">
-				<button type="button" onClick={() => {
+			<div class="pl-1 mt-3 mb-1">
+				<button class="preset-button" type="button" onClick={() => {
 					setPresets([
 						...customPresets(),
 						elementsToPreset(layerData(), canvas.canvas)
 					])
 					navigate("/")
-				}}>SAVE</button>
-				<Link href="/"><button type="button">CANCEL</button></Link>
+				}}>
+					SAVE
+				</button>
+				<Link href="/">
+					<button class="preset-button" type="button">CANCEL</button>
+				</Link>
 			</div>
 		</div>
-	</div>
+	</>
 }

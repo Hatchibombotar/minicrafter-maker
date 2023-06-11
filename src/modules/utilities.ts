@@ -1,6 +1,6 @@
 import { Preset, ElementList } from "../types"
 
-import { Accessor, Setter } from "solid-js"
+import { Accessor, Setter, createEffect, createSignal } from "solid-js"
 
 /**
  * Turns an elementsJSON into a preset object.
@@ -8,11 +8,11 @@ import { Accessor, Setter } from "solid-js"
  * @param {Array} elementsJSON The elementsJSON to be changed to a preset.
  * @param {canvas} canvas (Optional) The canvas to generate the icon from.
 */
-export function elementsToPreset(elementsJSON, canvas = undefined) {
+export function elementsToPreset(elementsJSON: ElementList, canvas: (HTMLCanvasElement | undefined) = undefined ) {
     const currentPreset: Preset = {
         "version": 2,
         "elements": {},
-        "image": canvas ? canvas.toDataURL("image/png") : "./presets/custom.png"
+        "image": canvas != undefined ? canvas.toDataURL("image/png") : "./presets/custom.png"
     }
     for (const layer of elementsJSON) {
         currentPreset.elements[layer.id] = [layer.currentlySelected, layer.colour]
@@ -44,8 +44,6 @@ export function getUrlVars(): { [key: string]: any } {
     })
     return vars
 }
-
-import { createEffect, createSignal } from "solid-js"
 
 export function createLocalSignal(init: any, name: string): [Accessor<any>, Setter<any>] {
     let localState = localStorage.getItem(name);

@@ -1,198 +1,141 @@
-* {
-  box-sizing: border-box;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@font-face {
-  font-family: 'minecraftfive';
-  src: local('sans-serif'), url('./assets/fonts/minecraft-five-825cb-webfont.woff2') format('woff2'), url('./assets/fonts/minecraft-five-825cb-webfont.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'minecraftten';
-  src: local('sans-serif'), url('./assets/fonts/minecraft-ten-b8f2d-webfont.woff2') format('woff2'), url('./assets/fonts/minecraft-ten-b8f2d-webfont.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-.box-container {
-  background-image: linear-gradient(#94979f, #c4b9b7);
-  border: 5px solid #64606e;
-  box-shadow: inset 0 -4px 50px 0px #968f8f, inset 0 -6px 0 0px #868086;
-}
-
-
-.font-ten {
-  font-family: minecraftten;
-}
-
-
-.App {
-  background-color: #d29196;
-  font-family: minecraftfive;
-  background-image: linear-gradient(#005592, #d29196);
-  margin: 0;
-  padding: 8px;
-}
-
-.title {
-  text-shadow: 0 3px cornflowerblue;
-  font-weight: 100;
-  font-size: 35px;
-  text-align: center;
-  margin: 0;
-
-  text-align: center;
-  padding-bottom: 0;
-  margin-bottom: 5px;
-}
-
-.socialButtons {
-  text-align: center;
-
-  img {
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    margin: 5px;
-    cursor: pointer;
+@layer components {
+  @font-face {
+    font-family: 'minecraftfive';
+    src: local('sans-serif'), url('./assets/fonts/minecraft-five-825cb-webfont.woff2') format('woff2'), url('./assets/fonts/minecraft-five-825cb-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
   }
-}
 
-.mainPanel {
-  display: flex;
-  justify-content: center;
+  @font-face {
+    font-family: 'minecraftten';
+    src: local('sans-serif'), url('./assets/fonts/minecraft-ten-b8f2d-webfont.woff2') format('woff2'), url('./assets/fonts/minecraft-ten-b8f2d-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
 
-  >div {
-    margin: 8px;
-    height: auto;
+  html {
+    background-color: #d29196;
+  }
+
+  body {
+    background-image: linear-gradient(#005592, #d29196);
+  }
+
+  .font-ten {
+    font-family: minecraftten;
+  }
+
+  .font-five {
+    font-family: minecraftfive;
+  }
+
+  .box-container {
+    @apply mx-2;
+    @apply shadow-xl;
+    background-image: linear-gradient(#94979f, #c4b9b7);
+    border: 5px solid #64606e;
+    box-shadow:
+      inset 0 -4px 50px 0px #968f8f, inset 0 -6px 0 0px #868086,
+      var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+      
+  }
+
+
+  .title {
+    text-shadow: 0 3px cornflowerblue;
+    font-weight: 100;
+    font-size: 35px;
+    text-align: center;
+    margin: 0;
+
+    text-align: center;
+    padding-bottom: 0;
+    margin-bottom: 5px;
+  }
+
+
+  /* customise panel */
+  .category-selector {
+    display: grid;
+    grid-gap: 5px;
+    padding: 5px;
     width: auto;
+    grid-template-columns: auto;
+    float: left;
 
-    // @include box-style();
+    @media (max-width: 640px) {
+      display: block;
+    }
 
-    h2 {
-      margin-top: 1px;
-      margin-bottom: 0px;
-      text-align: center;
+    img {
+      cursor: pointer;
+      -webkit-user-select: none;
+      height: 40px;
+      user-select: none;
+      display: inline-block;
+
+      @media (max-width: 640px) {
+        height: 55px;
+        width: 55px;
+      }
     }
   }
 
-  @media (max-width: 650px) {
-    flex-direction: column-reverse;
+  .parts {
+    padding-top: 0;
+    display: grid;
+    grid-template-columns: min-content min-content min-content;
+    min-width: 180px;
+
+    img {
+      max-width: unset;
+      margin: 5px;
+      cursor: pointer;
+      -webkit-user-select: none;
+      user-select: none;
+      display: inline-block;
+    }
+
+    @media (max-width: 640px) {
+      display: block;
+    }
   }
-}
 
+  .colour-container {
+    float: left;
+    display: grid;
+    grid-template-columns: min-content min-content min-content min-content;
 
-/* customise panel */
-
-.customisePanel {
-  padding-left:  8px;
-  padding-right: 8px;
-}
-
-.categories {
-  display: grid;
-  grid-gap: 5px;
-  padding: 5px;
-  width: auto;
-  grid-template-columns: auto;
-  float: left;
-
-  @media (max-width: 650px) {
-    display: block;
+    @media (max-width: 640px) {
+      float: none;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
   }
-}
 
-.categoryImage {
-  height: 50px;
-  cursor: pointer;
-  -webkit-user-select: none;
-  user-select: none;
-
-  @media (max-width: 650px) {
-    height: 55px !important;
-    width: 55px !important;
-    margin: 0 3px;
-  }
-}
-
-.categorySelected,
-.elementSelected {
-  outline: black solid 3px;
-}
-
-.parts {
-  padding-top: 0;
-  display: grid;
-  grid-template-columns: min-content min-content min-content;
-  min-width: 180px;
-
-  img {
-    margin: 5px;
+  .colour {
+    width: 35px;
+    height: 35px;
+    margin: 4px;
     cursor: pointer;
-    -webkit-user-select: none;
-    user-select: none;
+    border: none;
+    border-radius: 0;
   }
 
-  @media (max-width: 650px) {
-    display: block;
+  input.colour {
+    padding: 0;
+    outline: 0;
+    border: 0;
+    background: none;
   }
-}
 
-.hint {
-  width: 160px;
-  margin-right: 10px;
-  margin-top: 5px;
-  padding: 0;
-
-  @media (max-width: 650px) {
-    margin-top: 0;
-    margin-left: 5px;
-    width: unset;
-  }
-}
-
-.categories .categoryImage {
-  height: 40px;
-}
-
-.colourContainer {
-  float: left;
-  display: grid;
-  grid-template-columns: min-content min-content min-content min-content;
-
-  @media (max-width: 650px) {
-    float: none;
-    justify-content: center;
-    margin-bottom: 10px;
-    display: flex;
-  }
-}
-
-.colour {
-  width: 35px;
-  height: 35px;
-  margin: 4px;
-  cursor: pointer;
-  border: none;
-  border-radius: 0;
-  /* aspect-ratio: 1; */
-}
-
-input.colour {
-  padding: 0;
-  outline: 0;
-  border: 0;
-  background: none;
-}
-
-.presetButtons {
-  padding-left: 4px;
-
-  button {
+  .preset-button {
     box-shadow: 0 -3px rgb(108 108 108 / 50%) inset, 0 3px rgb(253 253 253 / 99%) inset, -3px 0 rgb(100 100 100 / 50%) inset, 3px 0 rgb(21 21 21 / 50%) inset;
     background: #acacac;
     height: 30px;
@@ -205,102 +148,96 @@ input.colour {
     cursor: pointer;
     border: none;
     aspect-ratio: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
       background: #919191;
     }
+
   }
-}
 
-.canvasContainer {
-  margin: 0;
-  padding: 0;
+  .canvas-container {
+    margin: 0;
+    padding: 0;
 
-  position: relative;
+    position: relative;
 
-  >div {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    cursor: pointer;
+    display: flex;
+    justify-content: center;
 
-    img, svg {
-      opacity: 0.3;
+    >div {
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: row;
 
-      &:hover {
-        opacity: 1;
+      img,
+      svg {
+        opacity: 0.3;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+
+    canvas {
+      width: 320px;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: pixelated;
+
+      @media (max-width: 640px) {
+        max-width: 320px;
+        width: 100%;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: pixelated;
       }
     }
   }
 
-  canvas {
-    width: 320px;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: pixelated;
 
-    @media (max-width: 650px) {
-      max-width: 320px;
-      width: 100%;
-      image-rendering: -moz-crisp-edges;
-      image-rendering: pixelated;
+  .preset-container {
+    >div {
+      display: inline-block;
+      position: relative;
+      aspect-ratio: 1;
+      margin: 1px;
+      padding: 1px;
+      max-width: 35px;
     }
   }
-}
 
-
-.presetContainer {
-  margin: 5px;
-
-  img {
-    cursor: pointer;
+  body {
+    @media (max-width: 640px) {
+      text-align: center;
+    }
   }
 
-  >div {
-    display: inline-block;
-    position: relative;
-    aspect-ratio: 1;
-    margin: 1px;
-    padding: 1px;
-    max-width: 35px;
+  footer {
+    margin-left: 10px;
+    font-size: 10px;
+
+    a {
+      @apply underline
+    }
+
+    @media (max-width: 640px) {
+      font-size: 12px !important;
+      margin: 0;
+    }
   }
 
-  >h3 {
-    font-size: 16px;
-    margin-top: 0px;
-    margin-bottom: 8px;
+  .preset-icon-overlay {
+    width: 20px;
+    position: absolute;
+    top: -8px;
+    right: -10px;
+
+    z-index: 10;
+    display: block;
   }
-}
-
-body {
-  @media (max-width: 650px) {
-    text-align: center;
-  }
-}
-
-footer {
-  margin-left: 10px;
-  font-size: 10px;
-
-  @media (max-width: 650px) {
-    font-size: 12px !important;
-    margin: 0;
-  }
-}
-
-.presetImage {
-  width: 30px;
-  height: 30px;
-}
-
-.presetDeleteIcon {
-  width: 20px;
-  position: absolute;
-  top: -8px;
-  right: -10px;
-
-  z-index: 10;
-}
-
-.presetDeleteIcon {
-  display: block;
 }

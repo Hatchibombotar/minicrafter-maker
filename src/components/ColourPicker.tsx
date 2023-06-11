@@ -1,11 +1,10 @@
 import { createSignal } from "solid-js";
-import styles from '../App.scss';
 
 export default function ColourPicker({ onInput }) {
 	const [colour, setColour] = createSignal([0, 0, 0])
 	let effectTimer: number;
 
-	let picker;
+	let picker: HTMLInputElement;
 
 	return <div
 		style={{ background: `rgb(${colour().join(",")})` }}

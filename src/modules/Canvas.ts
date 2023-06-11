@@ -1,4 +1,5 @@
 import { JSXElement } from "solid-js";
+import { Colour } from "../types";
 
 type CanvasElement = HTMLCanvasElement | JSXElement
 
@@ -19,18 +20,17 @@ export class Canvas {
      *
      * @param image The image to be overlayed, can be a promise.
     */
-    async drawImage(image) {
+    async drawImage(image: HTMLImageElement) {
         await image.decode()
-        await this.ctx.drawImage(image, 0, 0)
-        return
+        this.ctx.drawImage(image, 0, 0)
     }
 
     /**
      * Overlay another canvas on top of me 
      *
-     * @param {Canvas} canvasLayer The image to be overlayed, may be a promise.
+     * @param canvasLayer The image to be overlayed, may be a promise.
     */
-    async layer(canvasLayer) {
+    async layer(canvasLayer: Canvas) {
         const c1ImgData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height)
         const c2ImgData = canvasLayer.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height)
         const c1Data = c1ImgData.data
@@ -49,9 +49,9 @@ export class Canvas {
     /**
      * Colourfies this layer
      *
-     * @param {Array} colour The image to be overlayed, may be a promise.
+     * @param colour The image to be overlayed, may be a promise.
     */
-    async colourfy(colour) {
+    async colourfy(colour: Colour) {
         const imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
         const data = imageData.data
         for (var i = 0; i < data.length; i += 4) {
@@ -76,7 +76,7 @@ export class Canvas {
 
     /**
      * Gets the width property of this canvas.
-     * @returns {int} width
+     * @returns width
     */
     get width(): number {
         return this.canvas.width
@@ -84,9 +84,9 @@ export class Canvas {
 
     /**
      * Gets the height property of this canvas.
-     * @returns {int} height
+     * @returns height
     */
-    get height() {
+    get height(): number {
         return this.canvas.height
     }
 }
